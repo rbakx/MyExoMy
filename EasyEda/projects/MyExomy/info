@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-04-11 00:54:01",
+  "updated_at": "2021-04-11 09:33:47",
   "stick": "",
   "documents": [
     {
@@ -19,18 +19,18 @@
         "dae7f97ebfa34b9a8267d29ce0d9d6dd": 12,
         "36628af0fe3849a2f482991ed56c81b7": 1,
         "fc217faf64a940a397750f89d4f53ff3": 2,
-        "8d30cb5f727d4b9cbb85f010a40eda99": 10,
+        "8d30cb5f727d4b9cbb85f010a40eda99": 11,
         "24eeb2ceca08480b92b847b6a310acda": 2,
         "26358a93de3c4a4393ba6d2a0119604e": 1,
         "091438019a49401eb6eedf35fdb0bd60": 1,
         "90b2e0e81b56481d94fc16583552b9d0": 1,
         "178861ca5ed644bab5158c0fe54b9275": 1,
-        "016a65d749e64d3381a6ae15028425db": 1,
         "396e2baa39fd43c39e0e5b424425eeab": 1,
         "8341ffaacea84145a5e199456c99b567": 1,
         "4f2b366d0199440993539cbe28a25286": 1,
         "64b9e37e6c624d24bd78d8a0cd066ce5": 1,
-        "242f0eda3714454684813c1f77bc5442": 1
+        "242f0eda3714454684813c1f77bc5442": 1,
+        "016a65d749e64d3381a6ae15028425db": 2
       },
       "BOM": [
         [
@@ -58,6 +58,28 @@
           1,
           "H2-5.0-10.5X8.0MM",
           "LL",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Charge",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "CHARGE",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "4.8V",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "4.8V",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -98,10 +120,10 @@
           }
         ],
         [
-          "4.8V",
+          "6V (5x1.2V NiMH 5500 mAh)",
           1,
           "H2-5.0-10.5X8.0MM",
-          "4.8V",
+          "BAT",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -120,21 +142,10 @@
           }
         ],
         [
-          "Light sensor",
+          "LED right",
           1,
           "H2-5.0-10.5X8.0MM",
-          "LDR",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "6V (5x1.2V NiMH 5500 mAh)",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "BAT",
+          "LR",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -153,10 +164,10 @@
           }
         ],
         [
-          "LED right",
+          "Light sensor",
           1,
           "H2-5.0-10.5X8.0MM",
-          "LR",
+          "LDR",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -175,10 +186,21 @@
           }
         ],
         [
+          "1N5060",
+          1,
+          "DO-41",
+          "D3",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "6a70b28b15f943919bf7a1a19c011afb",
+            "uuid": "016a65d749e64d3381a6ae15028425db"
+          }
+        ],
+        [
           "0.1u",
           2,
           "CONDENSATOR 0.1UF",
-          "C2,C1",
+          "C1,C2",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -202,7 +224,7 @@
           "IRLB8721PbF",
           2,
           "T0220AB",
-          "M2,M1",
+          "M1,M2",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -317,7 +339,20 @@
           "10K",
           6,
           "RESISTOR-1/4W-HORIZONTAL",
-          "R2,R7,R11,R12,R5,R4",
+          "R12,R2,R5,R11,R4,R7",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "86K6",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R8",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -331,6 +366,19 @@
           1,
           "RESISTOR-1/4W-HORIZONTAL",
           "R6",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "15K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R10",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -366,36 +414,10 @@
           }
         ],
         [
-          "15K",
-          1,
-          "RESISTOR-1/4W-HORIZONTAL",
-          "R10",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
-            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
-          }
-        ],
-        [
-          "86K6",
-          1,
-          "RESISTOR-1/4W-HORIZONTAL",
-          "R8",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
-            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
-          }
-        ],
-        [
           "BC547C",
           2,
           "TO-92-3_L4.9-W3.7-P1.27-L",
-          "Q1,Q2",
+          "Q2,Q1",
           {
             "BOM_Supplier": "LCSC",
             "BOM_Supplier Part": "C713614",
@@ -406,11 +428,11 @@
           }
         ]
       ],
-      "updateTime": 1618094556,
+      "updateTime": 1618122413,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-04-11 00:42:36"
+      "updated_at": "2021-04-11 08:26:53"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -423,8 +445,8 @@
       "thumb": "/images/thumb-default.png",
       "components": {
         "f2e86ba4c32d4ae8b2107df7f8b40952": 1,
-        "e8260323ff984d118782bc3786c51e77": 10,
-        "6a70b28b15f943919bf7a1a19c011afb": 1,
+        "e8260323ff984d118782bc3786c51e77": 11,
+        "6a70b28b15f943919bf7a1a19c011afb": 2,
         "7e965212c9904ae296c36cc77572a3e0": 2,
         "febeab670b1b4d8b9bc81df7b04d486e": 2,
         "f531e42c9fc348138e99ce4bfe330fd7": 2,
@@ -439,11 +461,11 @@
         "5466291bcf5a424c87fda9e6019187d3": 1
       },
       "BOM": [],
-      "updateTime": 1618095241,
+      "updateTime": 1618126427,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-04-11 00:54:01"
+      "updated_at": "2021-04-11 09:33:47"
     }
   ],
   "sort": [
@@ -452,5 +474,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1618094556336
+  "schfilemtime": 1618122413063
 }
