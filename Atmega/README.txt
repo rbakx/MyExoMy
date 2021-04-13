@@ -1,5 +1,0 @@
-For the Skateboard project the ATmega328P-PU is used with an alternative bootloader which sets the clock to the 8 MHz internal clock. The new board definition (named 'ATmega328 on a breadboard (8 MHz internal clock)') and bootloader is available in the breadboard-1-6-x folder.
-See https://www.arduino.cc/en/Tutorial/BuiltInExamples/ArduinoISP for how to burn a bootloader on one Arduino board using another Arduino board as ISP.
-The 'ATmega328 on a breadboard (8 MHz internal clock)' board is made available to the Arduino IDE by copying the breadboard folder to C:\Program Files (x86)\Arduino\hardware.
-See https://www.arduino.cc/en/Tutorial/BuiltInExamples/ArduinoToBreadboard for a description of how to connect an ATmega328P on a breadboard and use it.
-To make the new board available in Visual Studio Code an Atmega328_on_breadboard_8MHz.json file is added to C:\Users\reneb\.platformio\platforms\atmelavr\boards. This json file is created by copying the uno.json file (which is for the Arduino Uno) and adapted the content with info from boards.txt in breadboard-1-6-x.
