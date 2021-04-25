@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-04-11 17:03:59",
+  "updated_at": "2021-04-25 13:38:06",
   "stick": "",
   "documents": [
     {
@@ -28,9 +28,9 @@
         "8341ffaacea84145a5e199456c99b567": 1,
         "64b9e37e6c624d24bd78d8a0cd066ce5": 1,
         "8fad0630374444fa8303a9c8e9e336f7": 1,
-        "242f0eda3714454684813c1f77bc5442": 1,
         "51e1b96213025ed2986fc4bc4cd0d08d": 1,
-        "ddeb553b7792411a9c497232bc849e0a": 1
+        "ddeb553b7792411a9c497232bc849e0a": 1,
+        "accc526fac024edba46b042890b7936d": 1
       },
       "BOM": [
         [
@@ -41,10 +41,32 @@
           "CustomPara"
         ],
         [
+          "LED right",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "LR",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
           "Solar panel 20W",
           1,
           "H2-5.0-10.5X8.0MM",
           "SOL",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "6V out",
+          2,
+          "H2-5.0-10.5X8.0MM",
+          "6VOUT,SERVO",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -63,10 +85,32 @@
           }
         ],
         [
-          "6V out",
-          2,
+          "5V out",
+          1,
           "H2-5.0-10.5X8.0MM",
-          "6VOUT,SERVO",
+          "RPI",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "RPi switch",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "RPISWITCH",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "I2C",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "I2C",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -96,10 +140,10 @@
           }
         ],
         [
-          "LED right",
+          "4.8V",
           1,
           "H2-5.0-10.5X8.0MM",
-          "LR",
+          "4.8V",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -129,21 +173,10 @@
           }
         ],
         [
-          "I2C",
+          "Charge",
           1,
           "H2-5.0-10.5X8.0MM",
-          "I2C",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "RPi switch",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "RPISWITCH",
+          "CHARGE",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -155,39 +188,6 @@
           1,
           "H2-5.0-10.5X8.0MM",
           "6VSWITCHED",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "5V out",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "RPI",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "4.8V",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "4.8V",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "Charge",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "CHARGE",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -236,7 +236,7 @@
           "0.1u",
           2,
           "CONDENSATOR 0.1UF",
-          "C2,C1",
+          "C1,C2",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -283,19 +283,6 @@
             "BOM_Manufacturer Part": "",
             "puuid": "febeab670b1b4d8b9bc81df7b04d486e",
             "uuid": "70c2ab06c08d4b8d8ff8ec184eceebb0"
-          }
-        ],
-        [
-          "PE014F05",
-          1,
-          "PE014F05",
-          "U5",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "5466291bcf5a424c87fda9e6019187d3",
-            "uuid": "242f0eda3714454684813c1f77bc5442"
           }
         ],
         [
@@ -366,36 +353,23 @@
           }
         ],
         [
+          "Omron G6B-1114P-US",
+          1,
+          "OMRON G6B-1114P-US-FOOTPRINT",
+          "U4",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "179a1c8f558441ec87c5909a271efa08",
+            "uuid": "accc526fac024edba46b042890b7936d"
+          }
+        ],
+        [
           "10K",
           6,
           "RESISTOR-1/4W-HORIZONTAL",
-          "R7,R4,R2,R5,R11,R12",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
-            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
-          }
-        ],
-        [
-          "68K",
-          1,
-          "RESISTOR-1/4W-HORIZONTAL",
-          "R8",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
-            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
-          }
-        ],
-        [
-          "2.7",
-          2,
-          "RESISTOR-1/4W-HORIZONTAL",
-          "R3,R1",
+          "R5,R12,R2,R7,R11,R4",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -418,10 +392,10 @@
           }
         ],
         [
-          "10",
+          "68K",
           1,
           "RESISTOR-1/4W-HORIZONTAL",
-          "R9",
+          "R8",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -435,6 +409,32 @@
           1,
           "RESISTOR-1/4W-HORIZONTAL",
           "R6",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "2.7",
+          2,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R1,R3",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "10",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R9",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -461,7 +461,7 @@
           "BC547C",
           2,
           "TO-92-3_L4.9-W3.7-P1.27-L",
-          "Q2,Q1",
+          "Q1,Q2",
           {
             "BOM_Supplier": "LCSC",
             "BOM_Supplier Part": "C713614",
@@ -472,11 +472,11 @@
           }
         ]
       ],
-      "updateTime": 1618153439,
+      "updateTime": 1619350686,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-04-11 17:03:59"
+      "updated_at": "2021-04-25 13:38:06"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -496,19 +496,19 @@
         "39489f78925148399b28b4cec7b8852b": 1,
         "4e0bf0f9b7aa4d0080bcb97d21abada5": 1,
         "2f1d96128ab94db491eae99d61bfb39c": 1,
-        "fb8b10620b5a459d9b03fd14987346f4": 1,
         "a6f62f03d0f7481fa82dfaa4df1b1955": 12,
-        "6924b36489de4921bb29ca14bf27c33f": 4,
         "a4ca010af9624cec8388569e4d5538a0": 1,
-        "5466291bcf5a424c87fda9e6019187d3": 1,
-        "ee75d565d98543bdb55a4484e2b5f9d7": 1
+        "ee75d565d98543bdb55a4484e2b5f9d7": 1,
+        "6924b36489de4921bb29ca14bf27c33f": 4,
+        "fb8b10620b5a459d9b03fd14987346f4": 1,
+        "179a1c8f558441ec87c5909a271efa08": 1
       },
       "BOM": [],
-      "updateTime": 1618153227,
+      "updateTime": 1619350658,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-04-11 17:00:27"
+      "updated_at": "2021-04-25 13:37:38"
     }
   ],
   "sort": [
@@ -517,5 +517,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1618153439169
+  "schfilemtime": 1619350686862
 }
