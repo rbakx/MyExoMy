@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-04-25 13:38:06",
+  "updated_at": "2021-05-02 22:39:12",
   "stick": "",
   "documents": [
     {
@@ -16,7 +16,7 @@
       "thumb": "/images/thumb-default.png",
       "components": {
         "70c2ab06c08d4b8d8ff8ec184eceebb0": 2,
-        "dae7f97ebfa34b9a8267d29ce0d9d6dd": 12,
+        "dae7f97ebfa34b9a8267d29ce0d9d6dd": 14,
         "36628af0fe3849a2f482991ed56c81b7": 1,
         "fc217faf64a940a397750f89d4f53ff3": 2,
         "8d30cb5f727d4b9cbb85f010a40eda99": 15,
@@ -41,10 +41,10 @@
           "CustomPara"
         ],
         [
-          "LED right",
+          "4.8V",
           1,
           "H2-5.0-10.5X8.0MM",
-          "LR",
+          "4.8V",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -52,10 +52,10 @@
           }
         ],
         [
-          "Solar panel 20W",
+          "6V out switched",
           1,
           "H2-5.0-10.5X8.0MM",
-          "SOL",
+          "6VSWITCHED",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -85,39 +85,6 @@
           }
         ],
         [
-          "5V out",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "RPI",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "RPi switch",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "RPISWITCH",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
-          "I2C",
-          1,
-          "H2-5.0-10.5X8.0MM",
-          "I2C",
-          {
-            "BOM_Manufacturer Part": "?",
-            "puuid": "e8260323ff984d118782bc3786c51e77",
-            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
-          }
-        ],
-        [
           "6V (5x1.2V NiMH 5500 mAh)",
           1,
           "H2-5.0-10.5X8.0MM",
@@ -140,10 +107,10 @@
           }
         ],
         [
-          "4.8V",
+          "LED right",
           1,
           "H2-5.0-10.5X8.0MM",
-          "4.8V",
+          "LR",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -173,6 +140,17 @@
           }
         ],
         [
+          "RPi switch",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "RPISWITCH",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
           "Charge",
           1,
           "H2-5.0-10.5X8.0MM",
@@ -184,10 +162,32 @@
           }
         ],
         [
-          "6V out switched",
+          "I2C",
           1,
           "H2-5.0-10.5X8.0MM",
-          "6VSWITCHED",
+          "I2C",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Solar panel 20W",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "SOL",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "5V out",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "RPI",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -211,10 +211,10 @@
           }
         ],
         [
-          "1N5060",
+          "1N4002",
           1,
           "DO-41",
-          "D3",
+          "D1",
           {
             "BOM_Manufacturer Part": "",
             "puuid": "6a70b28b15f943919bf7a1a19c011afb",
@@ -222,10 +222,10 @@
           }
         ],
         [
-          "1N4002",
+          "1N5060",
           1,
           "DO-41",
-          "D1",
+          "D3",
           {
             "BOM_Manufacturer Part": "",
             "puuid": "6a70b28b15f943919bf7a1a19c011afb",
@@ -366,10 +366,10 @@
           }
         ],
         [
-          "10K",
-          6,
+          "330",
+          1,
           "RESISTOR-1/4W-HORIZONTAL",
-          "R5,R12,R2,R7,R11,R4",
+          "R6",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -379,10 +379,10 @@
           }
         ],
         [
-          "15K",
-          1,
+          "10K",
+          7,
           "RESISTOR-1/4W-HORIZONTAL",
-          "R10",
+          "R7,R2,R14,R11,R12,R5,R4",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -405,19 +405,6 @@
           }
         ],
         [
-          "330",
-          1,
-          "RESISTOR-1/4W-HORIZONTAL",
-          "R6",
-          {
-            "BOM_Supplier Part": "",
-            "BOM_Supplier": "",
-            "BOM_Manufacturer Part": "",
-            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
-            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
-          }
-        ],
-        [
           "2.7",
           2,
           "RESISTOR-1/4W-HORIZONTAL",
@@ -431,10 +418,36 @@
           }
         ],
         [
+          "205K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R13",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
           "10",
           1,
           "RESISTOR-1/4W-HORIZONTAL",
           "R9",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "15K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R10",
           {
             "BOM_Supplier Part": "",
             "BOM_Supplier": "",
@@ -461,7 +474,7 @@
           "BC547C",
           2,
           "TO-92-3_L4.9-W3.7-P1.27-L",
-          "Q1,Q2",
+          "Q2,Q1",
           {
             "BOM_Supplier": "LCSC",
             "BOM_Supplier Part": "C713614",
@@ -472,11 +485,11 @@
           }
         ]
       ],
-      "updateTime": 1619350686,
+      "updateTime": 1619987938,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-04-25 13:38:06"
+      "updated_at": "2021-05-02 22:38:58"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -488,6 +501,7 @@
       "master": "",
       "thumb": "/images/thumb-default.png",
       "components": {
+        "a6f62f03d0f7481fa82dfaa4df1b1955": 14,
         "e8260323ff984d118782bc3786c51e77": 15,
         "6a70b28b15f943919bf7a1a19c011afb": 2,
         "7e965212c9904ae296c36cc77572a3e0": 2,
@@ -496,7 +510,6 @@
         "39489f78925148399b28b4cec7b8852b": 1,
         "4e0bf0f9b7aa4d0080bcb97d21abada5": 1,
         "2f1d96128ab94db491eae99d61bfb39c": 1,
-        "a6f62f03d0f7481fa82dfaa4df1b1955": 12,
         "a4ca010af9624cec8388569e4d5538a0": 1,
         "ee75d565d98543bdb55a4484e2b5f9d7": 1,
         "6924b36489de4921bb29ca14bf27c33f": 4,
@@ -504,11 +517,11 @@
         "179a1c8f558441ec87c5909a271efa08": 1
       },
       "BOM": [],
-      "updateTime": 1619350658,
+      "updateTime": 1619987952,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-04-25 13:37:38"
+      "updated_at": "2021-05-02 22:39:12"
     }
   ],
   "sort": [
@@ -517,5 +530,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1619350686862
+  "schfilemtime": 1619987938063
 }
