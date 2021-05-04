@@ -118,6 +118,7 @@ void setup()
   // define callbacks for i2c communication
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
+  digitalWrite(HeadlightPin, LOW);
 }
 
 void loop()
@@ -182,7 +183,8 @@ void loop()
     enableAdc();         // We need this for the LDR measurement
   }
 
-  switch (i2cCommand)
+  //switch (i2cCommand)
+  switch (0)
   {
   case 1: // light on
     digitalWrite(HeadlightPin, HIGH);
