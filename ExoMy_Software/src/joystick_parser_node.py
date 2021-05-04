@@ -82,12 +82,13 @@ def callback(data):
 
 
 if __name__ == '__main__':
-    global pub
+    global pub, pub2
 
     rospy.init_node('joystick_parser_node')
     rospy.loginfo('joystick_parser_node started')
 
     sub = rospy.Subscriber("/joy", Joy, callback, queue_size=1)
     pub = rospy.Publisher('/rover_command', RoverCommand, queue_size=1)
+    
 
     rospy.spin()

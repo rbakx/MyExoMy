@@ -23,6 +23,9 @@ RUN npm install http-server -g
 RUN apt-get update && \
     apt-get install ros-melodic-web-video-server ros-melodic-usb-cam -y
 
+# ReneB: Added package for I2C communication with ATmega328P
+RUN apt-get update && apt-get install python-smbus -y
+
 # Add ros sourcing to bashrc
 RUN echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
 

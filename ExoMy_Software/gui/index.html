@@ -93,6 +93,24 @@
       messageType: 'sensor_msgs/Joy'
     });
 
+    battery_voltage_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/battery_voltage',
+      messageType: 'std_msgs/String'
+    });
+    solarpanel_voltage_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/solarpanel_voltage',
+      messageType: 'std_msgs/String'
+    });
+
+    battery_voltage_listener.subscribe(function (m) {
+      document.getElementById("battery_voltage").innerHTML = "Battery voltage: " + m.data;
+    });
+    solarpanel_voltage_listener.subscribe(function (m) {
+      document.getElementById("solarpanel_voltage").innerHTML = "Solarpanel voltage: " + m.data;
+    });
+
     joy_event = function () {
       var joy = new ROSLIB.Message({
         axes: axes,
@@ -103,7 +121,7 @@
       console.log(buttons)
     }
 
-     button_clicked = function (button_index) {
+    button_clicked = function (button_index) {
       // The desired button index can be found by listening to the /joy ros message
       // or by checking in the wiki for the gamepad mapping.
       // Set axes to 0 to prevent driving during mode change.
@@ -134,6 +152,9 @@
           <button class="button buttonX" onclick="button_clicked(0)">SPOT TURN</button>
           <button class="button buttonA" onclick="button_clicked(1)">ACKERMANN</button>
           <button class="button buttonStart" onclick="button_clicked(9)">MOTORS</button>
+          <div id="status" style="font-size: 24px; color:blue;"></div>
+          <div id="battery_voltage" style="font-size: 24px; color:red;">empty</div>
+          <div id="solarpanel_voltage" style="font-size: 24px; color:red;">empty</div>
         </div>
       </div>
     </div>

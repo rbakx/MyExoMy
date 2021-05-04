@@ -183,8 +183,7 @@ void loop()
     enableAdc();         // We need this for the LDR measurement
   }
 
-  //switch (i2cCommand)
-  switch (0)
+  switch (i2cCommand)
   {
   case 1: // light on
     digitalWrite(HeadlightPin, HIGH);
@@ -198,11 +197,11 @@ void loop()
     if (i2cParameterCount == 1)
     {
       if (i2cParameters[0] == 128)
-      {                                        // 128 means read battery voltage.
+      {                                     // 128 means read battery voltage.
         i2cDataByteToSend = batteryVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
       }
       else if (i2cParameters[0] == 129)
-      {                                        // 129 means read solar panel voltage.
+      {                                   // 129 means read solar panel voltage.
         i2cDataByteToSend = solarVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
       }
       i2cCommand = 0;
