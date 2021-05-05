@@ -113,12 +113,19 @@ class Motors():
         for wheel_name, motor_pin in self.pins['drive'].items():
             duty_cycle = int(self.driving_pwm_neutral +
                              driving_command[wheel_name]/100.0 * self.driving_pwm_range * self.wheel_directions[wheel_name])
-
+            # ReneB: completely switch off the drive motors when duty cycle is close to neutral position, see https://learn.adafruit.com/16-channel-pwm-servo-driver
+            # This to eleminate the need to calibrate the drive motors to zero speed using the potentiometer every time.
+            rospy.loginfo("setDriving, duty_cycle = " + str(duty_cycle))
+            if abs(duty_cycle - self.driving_pwm_neutral) < 10:
+                duty_cycle = 4096
             self.pwm.set_pwm(motor_pin, 0, duty_cycle)
 
     def stopMotors(self):
         # Set driving wheels to neutral position to stop them
         duty_cycle = int(self.driving_pwm_neutral)
-
         for wheel_name, motor_pin in self.pins['drive'].items():
-            self.pwm.set_pwm(motor_pin, 0, duty_cycle)
+            #self.pwm.set_pwm(motor_pin, 0, duty_cycle)
+            # ReneB: completely switch off the drive motor when duty cycle is close to neutral position, see https://learn.adafruit.com/16-channel-pwm-servo-driver
+            # This to eleminate the need to calibrate the drive motors to zero speed using the potentiometer every time.
+            # stopMotors is called after a Watchdog timeout which is after 5 seconds of inactivity.
+            self.pwm.set_pwm(motor_pin, 0, 4096)

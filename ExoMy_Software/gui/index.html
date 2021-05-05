@@ -11,6 +11,8 @@
     var host_url = window.location.hostname;
     console.log(host_url);
     var watchdog_handle;
+    // ReneB: added global variables
+    var lights_toggle = "lights_off" // meant for lights toggle function.
 
     var ros = new ROSLIB.Ros({
       url: 'ws://' + host_url + ':9090'
@@ -21,15 +23,15 @@
     var buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     ros.on('connection', function () {
-      document.getElementById("status").innerHTML = "Connected";
+      document.getElementById("status").innerHTML = "Status: Connected";
     });
 
     ros.on('error', function (error) {
-      document.getElementById("status").innerHTML = "Error";
+      document.getElementById("status").innerHTML = "Status: Error";
     });
 
     ros.on('close', function () {
-      document.getElementById("status").innerHTML = "Closed";
+      document.getElementById("status").innerHTML = "Status: Closed";
     });
 
     createJoystick = function () {
@@ -93,14 +95,27 @@
       messageType: 'sensor_msgs/Joy'
     });
 
+    own_button_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: "/own_button",
+      messageType: 'std_msgs/String'
+    });
+
     battery_voltage_listener = new ROSLIB.Topic({
       ros: ros,
       name: '/battery_voltage',
       messageType: 'std_msgs/String'
     });
+
     solarpanel_voltage_listener = new ROSLIB.Topic({
       ros: ros,
       name: '/solarpanel_voltage',
+      messageType: 'std_msgs/String'
+    });
+
+    sleep_status_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/sleep_status',
       messageType: 'std_msgs/String'
     });
 
@@ -110,6 +125,13 @@
     solarpanel_voltage_listener.subscribe(function (m) {
       document.getElementById("solarpanel_voltage").innerHTML = "Solarpanel voltage: " + m.data;
     });
+    sleep_status_listener.subscribe(function (m) {
+      sleep_status_id = document.getElementById("sleep_status");
+      sleep_status_id.textContent = m.data;
+      if (m.data == "SLEEP ACTIVATED") {
+        sleep_status_id.style.backgroundColor = "green";
+      }
+    });
 
     joy_event = function () {
       var joy = new ROSLIB.Message({
@@ -117,8 +139,8 @@
         buttons: buttons
       });
       joy_listener.publish(joy);
-      console.log(axes)
-      console.log(buttons)
+      console.log(axes);
+      console.log(buttons);
     }
 
     button_clicked = function (button_index) {
@@ -131,6 +153,35 @@
       // After the command is sent set the index back to 0
       buttons[button_index] = 0;
     }
+
+    function toggleLights(elem) {
+      var msg = new ROSLIB.Message({
+        data: lights_toggle // The std_msgs/String Message has type 'data'.
+      });
+      own_button_listener.publish(msg);
+      if (lights_toggle == "lights_off") {
+        elem.textContent ="LIGHTS ON";
+        elem.style.color = "white";
+        elem.style.backgroundColor="black";
+        lights_toggle = "lights_on";
+      }
+      else {
+        elem.textContent ="LIGHTS OFF";
+        elem.style.color = "black";
+        elem.style.backgroundColor="yellow";
+        lights_toggle = "lights_off";
+      }
+    }
+
+    function gotoSleep(elem) {
+      var msg = new ROSLIB.Message({
+        data: "goto_sleep" // The std_msgs/String Message has type 'data'.
+      });
+      own_button_listener.publish(msg);
+      elem.textContent ="SLEEP REQUESTED";
+      elem.style.backgroundColor="orange";
+    }
+
 
   </script>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -152,9 +203,11 @@
           <button class="button buttonX" onclick="button_clicked(0)">SPOT TURN</button>
           <button class="button buttonA" onclick="button_clicked(1)">ACKERMANN</button>
           <button class="button buttonStart" onclick="button_clicked(9)">MOTORS</button>
+          <button id="light_status" class="button lights" style = "color: white; background-color: black" onclick="toggleLights(this)">LIGHTS ON</button>
+          <button id="sleep_status" class="button sleep" style = "color: white; background-color: red" onclick="gotoSleep(this)">SLEEP</button>
           <div id="status" style="font-size: 24px; color:blue;"></div>
-          <div id="battery_voltage" style="font-size: 24px; color:red;">empty</div>
-          <div id="solarpanel_voltage" style="font-size: 24px; color:red;">empty</div>
+          <div id="battery_voltage" style="font-size: 24px; color:blue;">initializing</div>
+          <div id="solarpanel_voltage" style="font-size: 24px; color:blue;">initializing</div>
         </div>
       </div>
     </div>

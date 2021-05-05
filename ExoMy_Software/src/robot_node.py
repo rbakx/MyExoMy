@@ -6,6 +6,7 @@ from rover import Rover
 import message_filters
 from std_msgs.msg import String
 import i2c
+from subprocess import call
 
 # Global variables.
 # ReneB: I2C address of Atmega328P.
@@ -30,12 +31,35 @@ def joy_callback(message):
 
     robot_pub.publish(cmds)
 
+# ReneB: callback to handle all own button events from the webpage.
+def own_button_callback(message):
+    if message.data == "lights_on":
+      i2c.write_byte(slaveAddressAtmega328P, 0, 1)  # Turn lights on
+    elif message.data == "lights_off":
+      i2c.write_byte(slaveAddressAtmega328P, 0, 2)  # Turn lights off
+    elif message.data == "goto_sleep":
+        i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+        i2c.write_byte(slaveAddressAtmega328P, 0, 255)  # 255 means goto sleep.
+        rospy.sleep(0.1) # Give Atmega328P time to process.
+        acknowledge = i2c.read_byte(slaveAddressAtmega328P, 0)
+        if acknowledge == 42: # 42 means acknowledge
+          # ReneB: If we get here it means that the ATmega328P acknowledged going to sleep after a short waiting period.
+          # After this short period the ATmega328P will switch off the power for the Raspberry Pi. During this period we shutdown the Raspberry Pi in a proper way.
+          sleep_status_pub.publish("SLEEP ACTIVATED")
+          # ReneB: Create an empty file 'exomy_shutdown.txt' in the '/root/exomy_ws/src/exomy/' folder of this container which is mapped to the host folder '/home/pi/ExoMy_Software/'.
+          # On the host runs the check_exomy_shutdown.py script. This script checks regularly for the presence of the exomy_shutdown.txt file.
+          # If it is present, it deletes the file and uses the shutdown command to shutdown the Raspberry Pi. 
+          open('/root/exomy_ws/src/exomy/exomy_shutdown.txt', mode='w').close() # Create an empty file if it does not exist yet.
+
 if __name__ == '__main__':
     rospy.init_node('robot_node')
     rospy.loginfo("Starting the robot node")
     global robot_pub
     joy_sub = rospy.Subscriber(
         "/rover_command", RoverCommand, joy_callback, queue_size=1)
+    # ReneB: subscribe to own_button topic, meant for buttons on the web page to turn the lights on and go to sleep.
+    joy_sub = rospy.Subscriber(
+        "/own_button", String, own_button_callback, queue_size=1)
 
     rate = rospy.Rate(10)
 
@@ -43,20 +67,23 @@ if __name__ == '__main__':
     # ReneB: Added publishers for battery voltage and solarpanel voltage.
     battery_voltage_pub = rospy.Publisher('/battery_voltage', String, queue_size=1)
     solarpanel_voltage_pub = rospy.Publisher('/solarpanel_voltage', String, queue_size=1)
+    sleep_status_pub = rospy.Publisher('/sleep_status', String, queue_size=1)
 
     # ReneB: Create while loop with sleep to publish battery voltage and solarpanel voltage every second.
     while not rospy.is_shutdown():
         # Read battery voltage from Atmega328P
         i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(slaveAddressAtmega328P, 0, 128)  # 129 means read battery voltage.
+        i2c.write_byte(slaveAddressAtmega328P, 0, 128)  # 128 means read battery voltage.
         rospy.sleep(0.1) # Give Atmega328P time to process.
         battery_voltage = i2c.read_byte(slaveAddressAtmega328P, 0)
-        battery_voltage_pub.publish(str(battery_voltage))
+        battery_voltage = battery_voltage * 7.8 * 1.1 / 256
+        battery_voltage_pub.publish("{:.2f}".format(battery_voltage) + " V")
         i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(slaveAddressAtmega328P, 0, 129)  # 129 means read battery voltage.
+        i2c.write_byte(slaveAddressAtmega328P, 0, 129)  # 129 means read solarpanel voltage.
         rospy.sleep(0.1) # Give Atmega328P time to process.
         solarpanel_voltage = i2c.read_byte(slaveAddressAtmega328P, 0)
-        solarpanel_voltage_pub.publish(str(solarpanel_voltage))
+        solarpanel_voltage = solarpanel_voltage * 21.5 * 1.1 / 256
+        solarpanel_voltage_pub.publish("{:.2f}".format(solarpanel_voltage) + " V")
         rospy.sleep(1)
 
     #rospy.spin()  # ReneB: Commented out because of while loop with sleep above.

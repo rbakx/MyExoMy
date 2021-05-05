@@ -97,6 +97,24 @@ void wakeup()
   motion = true;
 }
 
+void goToSleep()
+{
+  Serial.println("going to sleep!");
+  delay(100); // Small delay to make sure the println is finished.
+  digitalWrite(RelaisPin, LOW); // Switch off RPi and servo power.
+  digitalWrite(HeadlightPin, LOW);
+  digitalWrite(RGBGreenPin, LOW);
+  digitalWrite(RGBBluePin, LOW);
+  digitalWrite(RGBRedPin, LOW);
+  disableAdc();        // This will save appr. 260 μA.
+  power_all_disable(); // This does not seem to save additional power.
+  sleep_bod_disable(); // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
+  sleep_cpu();         // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
+  power_all_enable();  // We will need this for the delay function (timer 0).
+  enableAdc();         // We need this for the LDR measurement
+  digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
+}
+
 void setup()
 {
   Serial.begin(2 * 9600); // We need 9600 baud, but because we use the internal clock of 8 MHz we have to set it to 2x9600.
@@ -118,20 +136,20 @@ void setup()
   // define callbacks for i2c communication
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
-  digitalWrite(HeadlightPin, LOW);
+  digitalWrite(HeadlightPin, LOW); // Be sure to start with Headlights off.
+  digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
 }
 
 void loop()
 {
   static unsigned long previousMillis = 0;
-  digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
   analogReference(INTERNAL);     // Analog reference to internal 1.1V (for ATmega328P). Used for measuring battery voltage, so reference must be independent of the supply voltage.
   int batteryVal = analogRead(BatteryPin);
   int solarVal = analogRead(SolarPin);
   analogReference(DEFAULT); // Analog reference to 5V. Used for measuring LDR voltage which is relative to the 5V supply.
   int ldrVal = analogRead(LdrPin);
-  //Serial.println("LDR value: " + String(ldrVal));
   //Serial.println("Battery value: " + String(batteryVal));
+  //Serial.println("LDR value: " + String(ldrVal));
   if (batteryVal > BatteryThresholdGreen) // Battery high voltage.
   {
     digitalWrite(RGBGreenPin, HIGH);
@@ -166,21 +184,9 @@ void loop()
     motion = false;
   }
   //else if (millis() - previousMillis >= MotionCheckIntervalMillis)
-  else if (false) //disable sleep mode for testing
+  else if (false) // Disable automatic sleep mode for now.
   {
-    Serial.println("going to sleep!");
-    delay(100);
-    digitalWrite(RelaisPin, LOW); // Switch off RPi and servo power.
-    digitalWrite(HeadlightPin, LOW);
-    digitalWrite(RGBGreenPin, LOW);
-    digitalWrite(RGBBluePin, LOW);
-    digitalWrite(RGBRedPin, LOW);
-    disableAdc();        // This will save appr. 260 μA.
-    power_all_disable(); // This does not seem to save additional power.
-    sleep_bod_disable(); // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
-    sleep_cpu();         // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
-    power_all_enable();  // We will need this for the delay function (timer 0).
-    enableAdc();         // We need this for the LDR measurement
+    goToSleep();
   }
 
   switch (i2cCommand)
@@ -196,13 +202,21 @@ void loop()
   case 100: // Command to indicate a read is going to follow.
     if (i2cParameterCount == 1)
     {
-      if (i2cParameters[0] == 128)
-      {                                     // 128 means read battery voltage.
+      if (i2cParameters[0] == 128)          // 128: read battery voltage.
+      {
         i2cDataByteToSend = batteryVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
       }
-      else if (i2cParameters[0] == 129)
-      {                                   // 129 means read solar panel voltage.
-        i2cDataByteToSend = solarVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
+      else if (i2cParameters[0] == 129)     // 129: read solar panel voltage.
+      {
+        i2cDataByteToSend = solarVal / 4;   // Map level [0..1023] to [0..255] so it fits in one byte.
+      }
+      else if (i2cParameters[0] == 255)     // 255: go to sleep.
+      {
+        i2cDataByteToSend = 42;             // Send a magic number as acknowledge.
+        // Delay to make sure acknowledge is sent back over I2C and Raspberry Pi is properly shut down.
+        // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
+        delay(30000UL / 2);
+        goToSleep();
       }
       i2cCommand = 0;
     }
@@ -210,5 +224,5 @@ void loop()
   default:
     break;
   }
-  // No delay here as it will degrade I2C performance.
+  // No delay here as it will degrade I2C responsiveness.
 }
