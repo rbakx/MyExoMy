@@ -101,15 +101,15 @@
       messageType: 'std_msgs/String'
     });
 
-    battery_voltage_listener = new ROSLIB.Topic({
+    battery_status_listener = new ROSLIB.Topic({
       ros: ros,
-      name: '/battery_voltage',
+      name: '/battery_status',
       messageType: 'std_msgs/String'
     });
 
-    solarpanel_voltage_listener = new ROSLIB.Topic({
+    solarpanel_status_listener = new ROSLIB.Topic({
       ros: ros,
-      name: '/solarpanel_voltage',
+      name: '/solarpanel_status',
       messageType: 'std_msgs/String'
     });
 
@@ -119,11 +119,11 @@
       messageType: 'std_msgs/String'
     });
 
-    battery_voltage_listener.subscribe(function (m) {
-      document.getElementById("battery_voltage").innerHTML = "Battery voltage: " + m.data;
+    battery_status_listener.subscribe(function (m) {
+      document.getElementById("battery_status").innerHTML = "Battery status: " + m.data;
     });
-    solarpanel_voltage_listener.subscribe(function (m) {
-      document.getElementById("solarpanel_voltage").innerHTML = "Solarpanel voltage: " + m.data;
+    solarpanel_status_listener.subscribe(function (m) {
+      document.getElementById("solarpanel_status").innerHTML = "Solarpanel status: " + m.data;
     });
     sleep_status_listener.subscribe(function (m) {
       sleep_status_id = document.getElementById("sleep_status");
@@ -206,8 +206,8 @@
           <button id="light_status" class="button lights" style = "color: white; background-color: black" onclick="toggleLights(this)">LIGHTS ON</button>
           <button id="sleep_status" class="button sleep" style = "color: white; background-color: red" onclick="gotoSleep(this)">SLEEP</button>
           <div id="status" style="font-size: 24px; color:blue;"></div>
-          <div id="battery_voltage" style="font-size: 24px; color:blue;">initializing</div>
-          <div id="solarpanel_voltage" style="font-size: 24px; color:blue;">initializing</div>
+          <div id="battery_status" style="font-size: 24px; color:blue;">initializing</div>
+          <div id="solarpanel_status" style="font-size: 24px; color:blue;">initializing</div>
         </div>
       </div>
     </div>
