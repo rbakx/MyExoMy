@@ -4,12 +4,12 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-05-04 08:10:14",
+  "updated_at": "2021-05-07 08:46:37",
   "stick": "",
   "documents": [
     {
       "uuid": "42cdfd922080ef4b741b08e36c1ef085",
-      "title": "Circuit-Power",
+      "title": "Circuit_Power",
       "description": "",
       "docType": "1",
       "master": "",
@@ -530,5 +530,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1620108614652
+  "schfilemtime": 1620369997199
 }
