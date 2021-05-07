@@ -47,7 +47,6 @@ body {
 .buttonStart{
     background-color: red;
     grid-row: 4;
-    width: 50%;
 }
 
 .button_container {

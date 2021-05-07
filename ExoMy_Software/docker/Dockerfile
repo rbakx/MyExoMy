@@ -23,8 +23,11 @@ RUN npm install http-server -g
 RUN apt-get update && \
     apt-get install ros-melodic-web-video-server ros-melodic-usb-cam -y
 
-# ReneB: Added package for I2C communication with ATmega328P
+# ReneB: Add package for I2C communication with ATmega328P.
 RUN apt-get update && apt-get install python-smbus -y
+
+# ReneB: Add OpenSSH for communication between container and Raspberry Pi host.
+RUN apt-get update && apt-get install openssh-server -y
 
 # Add ros sourcing to bashrc
 RUN echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -36,4 +39,7 @@ RUN mkdir -p $EXOMY_WS/src
 WORKDIR /root
 
 COPY ./entrypoint.sh /
+
 ENTRYPOINT ["/entrypoint.sh"]
+
+
