@@ -84,7 +84,11 @@
     window.onload = function () {
       createJoystick();
       // Video output
-      stream_url = '//' + host_url + ':8080/stream?topic=/pi_cam/image_raw';
+      // ReneB: Replace ROS web_video_server URL with mjpg_streamer URL for better performance.
+      stream_url = '//' + host_url + ':8080/stream?topic=/pi_cam/image_raw'; // for ROS web_video_server
+      //stream_url = '//' + host_url + ':8080?action=stream';      // for mjpg_streamer
+      //stream_url = '//' + host_url + ':8080';                    // for GStreamer
+      //stream_url = '//' + host_url + ':8080/stream/video.mjpeg'; // for uv4l streamer
       console.log(stream_url);
       document.getElementById("video_output").src = stream_url;
     }
