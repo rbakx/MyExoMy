@@ -62,6 +62,7 @@ if [ -n "$RUNNING_CONTAINERS" ]; then
 fi
 
 # Run docker container
+# ReneB; remove the -p 8080:8080 \ below if streaming to 8080 is done from a Raspberry Pi host server, otherwise all traffic is forwarded to the container.
 docker run \
     -it \
     -v ~/ExoMy_Software:/root/exomy_ws/src/exomy \
