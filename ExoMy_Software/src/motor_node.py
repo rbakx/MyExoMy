@@ -17,7 +17,10 @@ def callback(cmds):
     watchdog_timer.shutdown()
     # If this timer runs longer than the duration specified,
     # then watchdog() is called stopping the driving motors.
-    watchdog_timer = rospy.Timer(rospy.Duration(5.0), watchdog, oneshot=True)
+    # ReneB: Decreased watchdog timeout from 5 seconds to 0.5 second.
+    #        This to make sure that if the Wifi connection drops the ExoMy stops in 0.5 second.
+    #        It still is possible that after the ExoMy stops it starts moving again due to delayed Wifi packet delivery.
+    watchdog_timer = rospy.Timer(rospy.Duration(0.5), watchdog, oneshot=True)
 
 
 def shutdown():
