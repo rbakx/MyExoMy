@@ -27,6 +27,15 @@ def HostRunShellCommandWait(cmd):
 def HostRunShellCommandNowait(cmd):
     subprocess.Popen("ssh pi@172.17.0.1 " + "\"" + cmd + "\"" + ">/dev/null 2>&1", shell=True)
 
+def HostStartVideoStream():
+    # Run on Raspberry Pi host, so through SSH.
+    # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
+    HostRunShellCommandNowait("python3 /home/pi/ExoMy_Software/pi-h264-to-browser-main/src/h264_server.py")
+    
+def HostStopVideoStream():
+    # Run on Raspberry Pi host, so through SSH.
+    # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
+    HostRunShellCommandWait("sudo pkill -9 -f h264_server.py")
 
 def HostShutdown():
     # Run on Raspberry Pi host, so through SSH.

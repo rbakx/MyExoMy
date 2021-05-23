@@ -85,10 +85,11 @@
       createJoystick();
       // Video output
       // ReneB: Replace ROS web_video_server URL with mjpg_streamer URL for better performance.
-      stream_url = '//' + host_url + ':8080/stream?topic=/pi_cam/image_raw'; // for ROS web_video_server
+      //stream_url = '//' + host_url + ':8080/stream?topic=/pi_cam/image_raw'; // for ROS web_video_server
       //stream_url = '//' + host_url + ':8080?action=stream';                // for mjpg_streamer
       //stream_url = '//' + host_url + ':8080';                              // for GStreamer
       //stream_url = '//' + host_url + ':8080/stream/video.mjpeg';           // for uv4l streamer
+      stream_url = '//' + host_url + ':8080/';           // for Pi H264 To Browser
       console.log(stream_url);
       document.getElementById("video_output").src = stream_url;
     }
@@ -208,7 +209,8 @@
     <div class="wrapper">
       <div class="left" id="left">
         <div class="image_container">
-          <img id="video_output" style="object-fit:cover; width:100%;"></img>
+          <iframe id = "video_output" scrolling="no" frameborder="0" style="position: relative; height: 100%; width: 100%;">
+          </iframe>
         </div>
       </div>
       <div class="right" id="right">
