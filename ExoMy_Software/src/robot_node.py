@@ -70,8 +70,8 @@ if __name__ == '__main__':
     sleep_status_pub = rospy.Publisher('/sleep_status', String, queue_size=1)
 
     # ReneB: Start the video stream which runs on the host. First stop any running video stream.
-    own_util.HostStopVideoStream()
-    own_util.HostStartVideoStream()
+    #own_util.HostStopVideoStream()
+    #own_util.HostStartVideoStream()
     # ReneB: Create while loop with sleep to publish the status every second.
     while not rospy.is_shutdown():
         # Read battery status from Atmega328P

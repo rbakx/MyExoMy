@@ -88,8 +88,8 @@
       //stream_url = '//' + host_url + ':8080/stream?topic=/pi_cam/image_raw'; // for ROS web_video_server
       //stream_url = '//' + host_url + ':8080?action=stream';                // for mjpg_streamer
       //stream_url = '//' + host_url + ':8080';                              // for GStreamer
-      //stream_url = 'https://' + host_url + ':8080/';                       // for uv4l streamer
-      stream_url = '//' + host_url + ':8080/';                               // for Pi H264 To Browser
+      stream_url = 'https://' + host_url + ':8080/';                         // for uv4l streamer
+      //stream_url = '//' + host_url + ':8080/';                             // for Pi H264 To Browser
       console.log(stream_url);
       document.getElementById("video_output").src = stream_url;
     }
