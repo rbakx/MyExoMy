@@ -7,8 +7,6 @@
         <param name="coalesce_interval" value="0.05"/>
     </node>
 
-
-
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
     <rosparam file="$(find exomy)/config/exomy.yaml"/> 
 

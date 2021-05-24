@@ -69,7 +69,7 @@ if __name__ == '__main__':
     wifi_status_pub = rospy.Publisher('/wifi_status', String, queue_size=1)
     sleep_status_pub = rospy.Publisher('/sleep_status', String, queue_size=1)
 
-    # Start the video stream which runs on the host. First stop any running video stream.
+    # ReneB: Start the video stream which runs on the host. First stop any running video stream.
     own_util.HostStopVideoStream()
     own_util.HostStartVideoStream()
     # ReneB: Create while loop with sleep to publish the status every second.

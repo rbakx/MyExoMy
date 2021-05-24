@@ -1,75 +1,95 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<title></title>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<style>
-body{
-margin:0;
-padding:0;
-background-color:#303030;
-}
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #303030;
+		}
 
-#streamStage{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-}
+		#streamStage {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
 
-#streamStage:before {
-content: '';
-box-sizing: border-box;
-position: absolute;
-top: 50%;
-left: 50%;
-width: 2rem;
-height: 2rem;
-margin-top: -1rem;
-margin-left: -1rem;
-}
+		#streamStage:before {
+			content: '';
+			box-sizing: border-box;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 2rem;
+			height: 2rem;
+			margin-top: -1rem;
+			margin-left: -1rem;
+		}
 
-#stream{
-width: 100%;
-height: 100%;
-max-height: 100%;
-max-width: 100%;
-margin: auto;
-position: absolute;
-top: 0; left: 0; bottom: 0; right: 0;
-}
-</style>
-<script src="/jmuxer.min.js"></script>
+		#stream {
+			width: 100%;
+			height: 100%;
+			max-height: 100%;
+			max-width: 100%;
+			margin: auto;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+		}
+	</style>
+	<script src="/jmuxer.min.js"></script>
 </head>
+
 <body>
 	<div id="streamtage">
-		 <video controls autoplay muted id="stream"></video>	
+		<video controls autoplay muted id="stream"></video>
 	</div>
-<body>
-    <script>
-	window.onload = function(){	
-		var jmuxer = new JMuxer({
-			node: 'stream',
-			mode: 'video',
-			flushingTime: 0,
-			fps: $fps,
-			debug: false
-		 });
 
-		var host_url = window.location.hostname;
-		var ws = new WebSocket("ws://" + host_url + ":$port/ws/");
-		ws.binaryType = 'arraybuffer';
-		ws.addEventListener('message',function(event){
-			if (!document.hidden){
-				jmuxer.feed({
-					video: new Uint8Array(event.data)
-				});				
+	<body>
+		<script>
+			window.onload = function () {
+				var jmuxer = new JMuxer({
+					node: 'stream',
+					mode: 'video',
+					flushingTime: 100,
+					fps: $fps,
+					debug: false
+				});
+
+				var host_url = window.location.hostname;
+				var ws = new WebSocket("ws://" + host_url + ":$port/ws/");
+				ws.binaryType = 'arraybuffer';
+				ws.addEventListener('message', function (event) {
+					if (!document.hidden) {
+						jmuxer.feed({
+							video: new Uint8Array(event.data)
+						});
+					}
+				});
+				// ReneB: Call flush_video() regularly.
+				setInterval(flush_video, 500);
 			}
-		});
-	}     
-    </script>
-</body>
+
+			// ReneB: flush_video checks if the video buffer ahead is too large.
+			// In that case jump to the end of the video.
+			// The additional readyState check is to prevent an error message at loading concerning buffered.end(0) not being available yet.
+			function flush_video() {
+				//code goes here that will be run every 5 seconds. 
+				var vid = document.getElementById('stream');
+				if (vid.readyState > 0 && vid.buffered.end(0) - vid.currentTime > 0.5) {
+					vid.currentTime = Number.MAX_VALUE;
+				}
+			}
+		</script>
+	</body>
+
 </html>
