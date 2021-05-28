@@ -89,7 +89,8 @@
       //stream_url = '//' + host_url + ':8080?action=stream';                // for mjpg_streamer
       //stream_url = '//' + host_url + ':8080';                              // for GStreamer
       //stream_url = '//' + host_url + ':8080/';                             // for Pi H264 To Browser
-      stream_url = 'https://' + host_url + ':8080/';                         // for uv4l streamer
+      //stream_url = 'https://' + host_url + ':8080/';                       // for uv4l streamer
+      stream_url = 'http://' + host_url + ':8080/native-peerconnection/';    // for Rpi-WebRTC-Streamer
       console.log(stream_url);
       document.getElementById("video_output").src = stream_url;
     }

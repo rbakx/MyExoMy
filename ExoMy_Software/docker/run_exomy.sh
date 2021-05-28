@@ -66,7 +66,7 @@ fi
 docker run \
     -it \
     -v ~/ExoMy_Software:/root/exomy_ws/src/exomy \
-    -p 8000:8000 \
+    -p 55555:55555 \
     -p 9090:9090 \
     --privileged \
     ${options} \

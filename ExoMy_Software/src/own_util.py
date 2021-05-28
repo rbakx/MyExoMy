@@ -30,12 +30,12 @@ def HostRunShellCommandNowait(cmd):
 def HostStartVideoStream():
     # Run on Raspberry Pi host, so through SSH.
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
-    HostRunShellCommandWait("sudo systemctl start uv4l_raspicam")
+    HostRunShellCommandWait("sudo systemctl start rws")
     
 def HostStopVideoStream():
     # Run on Raspberry Pi host, so through SSH.
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
-    HostRunShellCommandWait("sudo systemctl stop uv4l_raspicam")
+    HostRunShellCommandWait("sudo systemctl stop rws")
 
 def HostShutdown():
     # Run on Raspberry Pi host, so through SSH.
