@@ -45,6 +45,7 @@ WebSocketSignalingChannel.prototype.onWebSocketOpen_ = function (event) {
 
 WebSocketSignalingChannel.prototype.onWebSocketClose_ = function (event) {
     trace("Websocket Disconnected");
+    console.log('ReneB: ', event);
     this.doSignalingDisconnnect();
     this.peerConnectionClient_.close();
     this.peerConnectionClient_ = null;
