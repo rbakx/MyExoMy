@@ -30,12 +30,15 @@ def HostRunShellCommandNowait(cmd):
 def HostStartVideoStream():
     # Run on Raspberry Pi host, so through SSH.
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
-    HostRunShellCommandWait("sudo systemctl start rws")
+    HostRunShellCommandNowait("cd /home/pi/ExoMy_Software/webrtc-web/work && node index.js")
+    HostRunShellCommandNowait( "export DISPLAY=:0 nohup; xhost si:localuser:root; sudo chromium-browser --no-sandbox --ignore-certificate-errors --disable-restore-session-state --start-fullscreen https://localhost:8080")
+
     
 def HostStopVideoStream():
     # Run on Raspberry Pi host, so through SSH.
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
-    HostRunShellCommandWait("sudo systemctl stop rws")
+    HostRunShellCommandWait("sudo pkill -f \"index.js\"")
+    HostRunShellCommandWait("sudo pkill -f \"chromium\"")
 
 def HostShutdown():
     # Run on Raspberry Pi host, so through SSH.

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
 
-  <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="text/javascript" src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
   <script src="./node_modules/nipplejs/dist/nipplejs.js"></script>
   <script type="text/javascript" type="text/javascript">
     var publishImmidiately = true;
@@ -15,7 +15,7 @@
     var lights_toggle = "lights_off" // meant for lights toggle function.
 
     var ros = new ROSLIB.Ros({
-      url: 'ws://' + host_url + ':9090'
+      url: 'wss://' + host_url + ':9090'
     });
 
     // Initialize Axes and Buttons arrays
@@ -90,7 +90,9 @@
       //stream_url = '//' + host_url + ':8080';                              // for GStreamer
       //stream_url = '//' + host_url + ':8080/';                             // for Pi H264 To Browser
       //stream_url = 'https://' + host_url + ':8080/';                       // for uv4l streamer
-      stream_url = 'http://' + host_url + ':8080/native-peerconnection/';    // for Rpi-WebRTC-Streamer
+      //stream_url = 'http://' + host_url + ':8080/native-peerconnection/';  // for Rpi-WebRTC-Streamer
+      //stream_url = 'https://' + host_url + ':8080/';                       // for Chrome-WebRTC
+      stream_url = 'https://myexomy:8080/';                                  // for trusted Chrome-WebRTC
       console.log(stream_url);
       document.getElementById("video_output").src = stream_url;
     }
@@ -210,7 +212,7 @@
     <div class="wrapper">
       <div class="left" id="left">
         <div class="image_container">
-          <iframe id = "video_output" scrolling="no" frameborder="0" style="position: relative; height: 100%; width: 100%;">
+          <iframe id = "video_output" allow="camera; microphone" scrolling="no" frameborder="0" style="position: relative; height: 100%; width: 100%;">
           </iframe>
         </div>
       </div>

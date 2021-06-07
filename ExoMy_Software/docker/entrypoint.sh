@@ -17,7 +17,7 @@ then
 	source /opt/ros/melodic/setup.bash
 	cd /root/exomy_ws
 	catkin_make
-	http-server src/exomy/gui -p 55555 &
+	http-server --ssl --cert /root/exomy_ws/src/exomy/ssl/server.crt --key /root/exomy_ws/src/exomy/ssl/server.key src/exomy/gui -p 55555 &
 
 	source devel/setup.bash
 	roslaunch exomy exomy.launch
