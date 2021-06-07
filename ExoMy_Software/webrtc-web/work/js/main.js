@@ -28,10 +28,15 @@ var room = 'foo';
 
 var socket = io.connect();
 
-startAction();
+if (room !== '') {
+  socket.emit('create or join', room);
+  console.log('Attempted to create or  join room', room);
+  // ReneB: set isInitiator right at the start.
+  isInitiator = true;
+}
 
 socket.on('created', function (room) {
-  console.log('Created room ' + room);
+  console.log('***** ReneB: This is the Initiator! ***** Created room ' + room);
   isInitiator = true;
 });
 
@@ -43,6 +48,9 @@ socket.on('join', function (room) {
   console.log('Another peer made a request to join room ' + room);
   console.log('This peer is the initiator of room ' + room + '!');
   isChannelReady = true;
+  // ReneB: as soon as the other side does a join request (which happens after a load or reload of the other side's page), he is the initiator, so make isInitiator fase.
+  // If the other side is initially the initiator and does nothing, then a page refresh at this side will set the other side's isInitiator to false (see handleRemoteHangup()) and this side will continue as the initiator.
+  isInitiator = false;
 });
 
 socket.on('joined', function (room) {
@@ -86,6 +94,52 @@ socket.on('message', function (message) {
 });
 
 ////////////////////////////////////////////////////
+
+var localVideo = document.querySelector('#localVideo');
+var remoteVideo = document.querySelector('#remoteVideo');
+
+var constraints = {
+  "audio": false,
+  "video": {
+    "width": {
+      "min": "640",
+      "max": "1600"
+    },
+    "height": {
+      "min": "480",
+      "max": "1200"
+    },
+    "frameRate": {
+      "min": "10",
+      "max": "30"
+    }
+  }
+};
+
+navigator.mediaDevices.getUserMedia(constraints)
+  .then(gotStream)
+  .catch(function (e) {
+    alert('getUserMedia() error: ' + e.name);
+  });
+
+function gotStream(stream) {
+  console.log('Adding local stream.');
+  localStream = stream;
+  localVideo.srcObject = stream;
+  sendMessage('got user media');
+  if (isInitiator) {
+    maybeStart();
+  }
+}
+
+
+console.log('Getting user media with constraints', constraints);
+
+if (location.hostname !== 'localhost') {
+  requestTurn(
+    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+  );
+}
 
 function maybeStart() {
   console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
@@ -222,70 +276,45 @@ function stop() {
 // Define and add behavior to buttons.
 
 // Define action buttons.
-const startButton = document.getElementById('startButton');
 const callButton = document.getElementById('callButton');
 const hangupButton = document.getElementById('hangupButton');
+const statsButton = document.getElementById('statsButton');
 
 // Set up initial action buttons status: disable call and hangup.
 callButton.disabled = true;
 hangupButton.disabled = false;
+statsButton.disabled = false;
 
 // Add click event handlers for buttons.
-startButton.addEventListener('click', startAction);
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
+statsButton.addEventListener('click', statsAction);
 
-
-// Handles start button action: creates local MediaStream.
-function startAction() {
-  if (room !== '') {
-    socket.emit('create or join', room);
-    console.log('Attempted to create or  join room', room);
-  }
-  var localVideo = document.querySelector('#localVideo');
-  var remoteVideo = document.querySelector('#remoteVideo');
-
-  navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: true
-  })
-    .then(gotStream)
-    .catch(function (e) {
-      alert('getUserMedia() error: ' + e.name);
-    });
-
-  function gotStream(stream) {
-    console.log('Adding local stream.');
-    localStream = stream;
-    localVideo.srcObject = stream;
-    sendMessage('got user media');
-    if (isInitiator) {
-      maybeStart();
-    }
-  }
-
-  var constraints = {
-    video: true
-  };
-
-  console.log('Getting user media with constraints', constraints);
-
-  if (location.hostname !== 'localhost') {
-    requestTurn(
-      'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-    );
-  }
-}
-
-// Handles call button action: creates peer connection.
+// ReneB: Handles call button action.
+// ReneB: Currenty this initiates a page reload which renew the connection.
 function callAction() {
   callButton.disabled = true;
   hangupButton.disabled = false;
-  trace('Starting call.');
+  location.reload();
 }
 
-// Handles hangup action: ends up call, closes connections and resets peers.
+// ReneB: Handles hangup action.
 function hangupAction() {
+  callButton.disabled = false;
+  hangupButton.disabled = true;
   hangup();
-  trace('Ending call.');
+}
+
+// ReneB: Shows statistics on request.
+function statsAction() {
+  if (localVideo.videoWidth) {
+    const width = localVideo.videoWidth;
+    const height = localVideo.videoHeight;
+    document.getElementById("localVideoStats").innerHTML = `<strong>Local video dimensions:</strong> ${width}x${height}px`;
+  }
+  if (remoteVideo.videoWidth) {
+    const rHeight = remoteVideo.videoHeight;
+    const rWidth = remoteVideo.videoWidth;
+    document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video dimensions:</strong> ${rWidth}x${rHeight}px`;
+  }
 }

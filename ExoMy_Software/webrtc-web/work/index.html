@@ -13,15 +13,15 @@
 
   <h1>Realtime communication with WebRTC</h1>
 
-  <div id="videos">
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo" autoplay playsinline></video>
-  </div>
+  <video id="remoteVideo" autoplay playsinline></video>
+  <video id="localVideo" autoplay muted playsinline></video>
+  <p id="remoteVideoStats">Local video dimensions: press Statistics</p>
+  <p id="localVideoStats">Remote video dimensions: press Statistics</p>
 
   <div>
-    <button id="startButton">Start</button>
     <button id="callButton">Call</button>
     <button id="hangupButton">Hang Up</button>
+    <button id="statsButton">Statistics</button>
   </div>
 
   <!-- This file is automatically added/served when running "node index.js". -->
