@@ -102,16 +102,13 @@ var constraints = {
   "audio": false,
   "video": {
     "width": {
-      "min": "640",
-      "max": "1600"
+      "ideal": "640"
     },
     "height": {
-      "min": "480",
-      "max": "1200"
+      "ideal": "480"
     },
     "frameRate": {
-      "min": "10",
-      "max": "30"
+      "ideal": "20"
     }
   }
 };
