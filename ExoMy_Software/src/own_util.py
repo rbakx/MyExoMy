@@ -30,7 +30,7 @@ def HostRunShellCommandNowait(cmd):
 def HostStartVideoStream():
     # Run on Raspberry Pi host, so through SSH.
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
-    HostRunShellCommandNowait("cd /home/pi/ExoMy_Software/webrtc-web/work && node index.js")
+    HostRunShellCommandNowait("cd /home/pi/ExoMy_Software/webrtc-web && node index.js")
     # The Chromium browser should be started with:
     # HostRunShellCommandNowait("export DISPLAY=:0 nohup; chromium-browser --ignore-certificate-errors --kiosk --disable-infobar https://localhost:8080")
     # but unfortunately it then crashes with 'Trace/breakpoint trap'.
