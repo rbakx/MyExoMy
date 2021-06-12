@@ -69,9 +69,12 @@ if __name__ == '__main__':
     wifi_status_pub = rospy.Publisher('/wifi_status', String, queue_size=1)
     sleep_status_pub = rospy.Publisher('/sleep_status', String, queue_size=1)
 
-    # ReneB: Start the video stream which runs on the host. First stop any running video stream.
-    own_util.HostStopVideoStream()
-    own_util.HostStartVideoStream()
+    # ReneB: The node.js WebRTC signal server and Chromium running on the Raspberry Pi host ideally would be started from here.
+    # However, this is quite difficult from the Docker container through SSH.
+    # So now these are stopped and started on the Raspberry Pi host from /home/pi/ExoMy_Software/start_webrtc which is called from /etc/xdg/lxsession/LXDE-pi/autostart.
+    # own_util.HostStopVideoStream()
+    # own_util.HostStartVideoStream()
+    
     # ReneB: Create while loop with sleep to publish the status every second.
     while not rospy.is_shutdown():
         # Read battery status from Atmega328P

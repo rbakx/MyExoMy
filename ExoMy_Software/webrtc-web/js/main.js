@@ -99,7 +99,7 @@ var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
 var constraints = {
-  "audio": false,
+  "audio": true,
   "video": {
     "width": {
       "ideal": "640"
@@ -304,14 +304,45 @@ function hangupAction() {
 
 // ReneB: Shows statistics on request.
 function statsAction() {
+  DisplayStats();
+}
+
+async function DisplayStats() {
+  var localVideoWidth = localStream.getVideoTracks()[0].getSettings().width;
+  var localVideoHeight = localStream.getVideoTracks()[0].getSettings().height;
+  var localVideoFramerate = localStream.getVideoTracks()[0].getSettings().frameRate;
+  var remoteVideoWidth = remoteStream.getVideoTracks()[0].getSettings().width;
+  var remoteVideoHeight = remoteStream.getVideoTracks()[0].getSettings().height;
+  var remoteVideoFramerate = remoteStream.getVideoTracks()[0].getSettings().frameRate;
+
+  // ReneB: Get current local video codec.
+  var localVideoCodec;
+  var stats = await pc.getStats(null);
+  stats.forEach(stat => {
+    if (!(stat.type === 'outbound-rtp' && stat.kind === 'video')) {
+      return;
+    }
+    localVideoCodec = stats.get(stat.codecId);
+  });
+  // ReneB: Get current remote video codec.
+  var remoteVideoCodec;
+  stats = await pc.getStats(null);
+  stats.forEach(stat => {
+    if (!(stat.type === 'inbound-rtp' && stat.kind === 'video')) {
+      return;
+    }
+    remoteVideoCodec = stats.get(stat.codecId);
+  });
+
   if (localVideo.videoWidth) {
     const width = localVideo.videoWidth;
     const height = localVideo.videoHeight;
-    document.getElementById("localVideoStats").innerHTML = `<strong>Local video dimensions:</strong> ${width}x${height}px`;
+    document.getElementById("localVideoStats").innerHTML = `<strong>Local video stats:</strong> ${localVideoWidth}x${localVideoHeight}, ${localVideoFramerate.toFixed(1)} fps, ` + localVideoCodec.mimeType;
   }
   if (remoteVideo.videoWidth) {
     const rHeight = remoteVideo.videoHeight;
     const rWidth = remoteVideo.videoWidth;
-    document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video dimensions:</strong> ${rWidth}x${rHeight}px`;
+    document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video stats:</strong> ${remoteVideoWidth}x${remoteVideoHeight}, ${remoteVideoFramerate.toFixed(1)} fps, ` + remoteVideoCodec.mimeType;
   }
 }
+

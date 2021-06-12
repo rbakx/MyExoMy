@@ -1,0 +1,11 @@
+#!/bin/sh
+# ReneB: This file is called from
+# /etc/xdg/lxsession/LXDE-pi/autostart
+# with the line @/home/pi/ExoMy_Software/start_webrtc
+
+# First kill previous processes to make sure they are not running anymore.
+sudo pkill -f index.js
+sudo pkill -f chromium
+# Start node.js WebRTC signaling server and Chromium browser.
+cd /home/pi/ExoMy_Software/webrtc-web && node index.js&
+chromium-browser --kiosk --disable-infobar https://localhost:8080&
