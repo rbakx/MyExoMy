@@ -32,14 +32,9 @@ def HostStartVideoStream():
     # On Docker for Linux, the IP address of the gateway between the Docker host and the bridge network is 172.17.0.1 if you are using default networking.
     # Start the node.js signalling server.
     HostRunShellCommandNowait("cd /home/pi/ExoMy_Software/webrtc-web && node index.js")
-    # The Chromium browser should be started with:
-    # HostRunShellCommandNowait("export DISPLAY=:0 nohup; chromium-browser --ignore-certificate-errors --kiosk --disable-infobar https://localhost:8080")
-    # but unfortunately it then crashes with 'Trace/breakpoint trap'.
+    # The Chromium browser should be started with the command below but unfortunately it crashes with 'Trace/breakpoint trap'.
     # Hopefully this will be resolved in a future Chromium version.
-    # Until then it can be 'fixed' by using sudo in combination with '--no-sandbox'.
-    # Because sudo is used, an additional 'xhost si:localuser:root;' is needed after 'export DISPLAY=:0 nohup;' in the ssh command otherwise Chromium cannot attach to a display.
-    # Note that it is not needed that an actual display is attached.
-    HostRunShellCommandNowait("export DISPLAY=:0 nohup; xhost si:localuser:root; sudo chromium-browser --no-sandbox --ignore-certificate-errors --kiosk --disable-infobar https://localhost:8080")
+    HostRunShellCommandNowait("export DISPLAY=:0 nohup; chromium-browser --kiosk --disable-infobar https://localhost:8080")
 
 def HostStopVideoStream():
     # Run on Raspberry Pi host, so through SSH.

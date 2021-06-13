@@ -90,6 +90,8 @@ socket.on('message', function (message) {
     pc.addIceCandidate(candidate);
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
+  } else if (message == 'toggleAudio') {
+    toggleAudio();
   }
 });
 
@@ -276,16 +278,19 @@ function stop() {
 const callButton = document.getElementById('callButton');
 const hangupButton = document.getElementById('hangupButton');
 const statsButton = document.getElementById('statsButton');
+const audioButton = document.getElementById('audioButton');
 
 // Set up initial action buttons status: disable call and hangup.
 callButton.disabled = true;
 hangupButton.disabled = false;
 statsButton.disabled = false;
+audioButton.disabled = false;
 
 // Add click event handlers for buttons.
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
 statsButton.addEventListener('click', statsAction);
+audioButton.addEventListener('click', audioAction);
 
 // ReneB: Handles call button action.
 // ReneB: Currenty this initiates a page reload which renew the connection.
@@ -305,6 +310,29 @@ function hangupAction() {
 // ReneB: Shows statistics on request.
 function statsAction() {
   DisplayStats();
+}
+
+//ReneB: Switch audio on and off.
+function audioAction() {
+  toggleAudio();
+  sendMessage('toggleAudio');
+}
+
+var localAudioTrack;
+function toggleAudio() {
+  var audioTrack = localStream.getAudioTracks();
+  console.log('going to check audio!!');
+  if (audioTrack.length > 0) {
+    localAudioTrack = audioTrack;
+    console.log('going to remove audio!!')
+    localStream.removeTrack(audioTrack[0]);
+  }
+  else {
+    //pc.addTrack(localAudioTrack[0]);
+    //console.log('going to add audio!!')
+    hangup();
+    location.reload();
+  }
 }
 
 async function DisplayStats() {
