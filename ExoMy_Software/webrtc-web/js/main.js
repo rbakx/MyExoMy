@@ -101,7 +101,7 @@ var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
 var constraints = {
-  "audio": true,
+  "audio": false,
   "video": {
     "width": {
       "ideal": "640"
@@ -145,7 +145,7 @@ function maybeStart() {
   if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
     console.log('>>>>>> creating peer connection');
     createPeerConnection();
-    pc.addStream(localStream);
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
     isStarted = true;
     console.log('isInitiator', isInitiator);
     if (isInitiator) {
@@ -164,8 +164,7 @@ function createPeerConnection() {
   try {
     pc = new RTCPeerConnection(null);
     pc.onicecandidate = handleIceCandidate;
-    pc.onaddstream = handleRemoteStreamAdded;
-    pc.onremovestream = handleRemoteStreamRemoved;
+    pc.ontrack = gotRemoteStream;
     console.log('Created RTCPeerConnnection');
   } catch (e) {
     console.log('Failed to create PeerConnection, exception: ' + e.message);
@@ -244,15 +243,15 @@ function requestTurn(turnURL) {
   }
 }
 
-function handleRemoteStreamAdded(event) {
-  console.log('Remote stream added.');
-  remoteStream = event.stream;
-  remoteVideo.srcObject = remoteStream;
+
+function gotRemoteStream(e) {
+  console.log('gotRemoteStream', e.track, e.streams[0]);
+
+  // reset srcObject to work around minor bugs in Chrome and Edge.
+  remoteVideo.srcObject = null;
+  remoteVideo.srcObject = e.streams[0];
 }
 
-function handleRemoteStreamRemoved(event) {
-  console.log('Remote stream removed. Event: ', event);
-}
 
 function hangup() {
   console.log('Hanging up.');
@@ -309,68 +308,44 @@ function hangupAction() {
 
 // ReneB: Shows statistics on request.
 function statsAction() {
-  DisplayStats();
+  if (localVideo.videoWidth) {
+    const width = localVideo.videoWidth;
+    const height = localVideo.videoHeight;
+    document.getElementById("localVideoStats").innerHTML = `<strong>Local video dimensions:</strong> ${width}x${height}px`;
+  }
+  if (remoteVideo.videoWidth) {
+    const rHeight = remoteVideo.videoHeight;
+    const rWidth = remoteVideo.videoWidth;
+    document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video dimensions:</strong> ${rWidth}x${rHeight}px`;
+  }
 }
 
-//ReneB: Switch audio on and off.
+// ReneB: Switch audio on and off.
 function audioAction() {
   toggleAudio();
   sendMessage('toggleAudio');
 }
 
-var localAudioTrack;
+var audioTrack;
+var audioOn = false;
 function toggleAudio() {
-  var audioTrack = localStream.getAudioTracks();
-  console.log('going to check audio!!');
-  if (audioTrack.length > 0) {
-    localAudioTrack = audioTrack;
-    console.log('going to remove audio!!')
-    localStream.removeTrack(audioTrack[0]);
+  if (audioOn == false) {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(stream => {
+        const audioTracks = stream.getAudioTracks();
+        if (audioTracks.length > 0) {
+          console.log(`Using audio device: ${audioTracks[0].label}`);
+          audioTrack =  pc.addTrack(audioTracks[0], localStream);
+        }
+      })
+      .then(() => doCall())
+      .then(() => audioButton.style.background = 'green')
+      .then(() => audioOn = true);
   }
   else {
-    //pc.addTrack(localAudioTrack[0]);
-    //console.log('going to add audio!!')
-    hangup();
-    location.reload();
+    audioButton.style.background = 'red';
+    audioOn = false
+    pc.removeTrack(audioTrack);
   }
 }
-
-async function DisplayStats() {
-  var localVideoWidth = localStream.getVideoTracks()[0].getSettings().width;
-  var localVideoHeight = localStream.getVideoTracks()[0].getSettings().height;
-  var localVideoFramerate = localStream.getVideoTracks()[0].getSettings().frameRate;
-  var remoteVideoWidth = remoteStream.getVideoTracks()[0].getSettings().width;
-  var remoteVideoHeight = remoteStream.getVideoTracks()[0].getSettings().height;
-  var remoteVideoFramerate = remoteStream.getVideoTracks()[0].getSettings().frameRate;
-
-  // ReneB: Get current local video codec.
-  var localVideoCodec;
-  var stats = await pc.getStats(null);
-  stats.forEach(stat => {
-    if (!(stat.type === 'outbound-rtp' && stat.kind === 'video')) {
-      return;
-    }
-    localVideoCodec = stats.get(stat.codecId);
-  });
-  // ReneB: Get current remote video codec.
-  var remoteVideoCodec;
-  stats = await pc.getStats(null);
-  stats.forEach(stat => {
-    if (!(stat.type === 'inbound-rtp' && stat.kind === 'video')) {
-      return;
-    }
-    remoteVideoCodec = stats.get(stat.codecId);
-  });
-
-  if (localVideo.videoWidth) {
-    const width = localVideo.videoWidth;
-    const height = localVideo.videoHeight;
-    document.getElementById("localVideoStats").innerHTML = `<strong>Local video stats:</strong> ${localVideoWidth}x${localVideoHeight}, ${localVideoFramerate.toFixed(1)} fps, ` + localVideoCodec.mimeType;
-  }
-  if (remoteVideo.videoWidth) {
-    const rHeight = remoteVideo.videoHeight;
-    const rWidth = remoteVideo.videoWidth;
-    document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video stats:</strong> ${remoteVideoWidth}x${remoteVideoHeight}, ${remoteVideoFramerate.toFixed(1)} fps, ` + remoteVideoCodec.mimeType;
-  }
-}
-
