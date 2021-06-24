@@ -3,9 +3,9 @@ body {
 }
 
 #remoteVideo {
-  width: 60%;
+  width: 80%;
 }
 
 #localVideo {
-  width: 20%;
+  width: 0%;
 }

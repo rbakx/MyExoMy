@@ -89,8 +89,10 @@ socket.on('message', function (message) {
     pc.addIceCandidate(candidate);
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
-  } else if (message == 'toggleAudio') {
+  } else if (message == 'toggleAudioTrue') {
     toggleAudio(true);
+  } else if (message == 'toggleAudioFalse') {
+    toggleAudio(false);
   } else if (message == 'reload') {
     location.reload();
   }
@@ -143,7 +145,7 @@ if (location.hostname == 'localhost') {
 function gotStream(stream) {
   console.log('Adding local stream.');
   localStream = stream;
-  localVideo.srcObject = stream;
+  //localVideo.srcObject = stream;
   sendMessage('got user media');
   if (isInitiator) {
     maybeStart();
@@ -332,8 +334,8 @@ function hangupAction() {
 
 // ReneB: Switch audio on and off.
 function audioAction() {
-  toggleAudio(false);
-  sendMessage('toggleAudio');
+  audioButton.disabled = true;
+  sendMessage('toggleAudioTrue');
 }
 
 // ReneB: Shows statistics on request.
@@ -357,7 +359,11 @@ function toggleAudio(fromRemote) {
         })
         // ReneB: Use arrow function otherwise code is executed immediately.
         .then(() => doCall())
+        .then(() => localVideo.srcObject = localStream)
+        .then(() => sendMessage('toggleAudioFalse'))
         .then(() => audioButton.style.background = 'green');
+      remoteVideo.style.width = '60%';
+      localVideo.style.width = '20%';
     }
     else {
       navigator.mediaDevices
@@ -372,62 +378,69 @@ function toggleAudio(fromRemote) {
           }
           if (videoTracks.length > 0) {
             console.log(`Using video device: ${videoTracks[0].label}`);
-            
+
             videoTrackSender = pc.addTrack(videoTracks[0], localStream);
           }
         })
         // ReneB: Use arrow function otherwise code is executed immediately.
         .then(() => doCall())
         .then(() => localVideo.srcObject = localStream)
-        .then(() => audioButton.style.background = 'green');
+        .then(() => audioButton.style.background = 'green')
+        .then(() => audioButton.disabled = false);
+      remoteVideo.style.width = '60%';
+      localVideo.style.width = '20%';
     }
   }
   else {
-    audioButton.style.background = 'red';
     audioOn = false;
     console.log(`going to remove audio: ${audioTrackSender}`);
     pc.removeTrack(audioTrackSender);
-    if (fromRemote == false) {
-      pc.removeTrack(videoTrackSender);
+    if (fromRemote == true) {
+      remoteVideo.srcObject = null;
+      sendMessage('toggleAudioFalse');
     }
+    else {
+      console.log(`going to remove video: ${videoTrackSender}`);
+      pc.removeTrack(videoTrackSender);
+      remoteVideo.style.width = '80%';
+      localVideo.style.width = '0%';
+    }
+    audioButton.style.background = 'red';
+    audioButton.disabled = false;
+    localVideo.srcObject = null;
   }
 }
 
 async function DisplayStats() {
-  var localVideoWidth = localStream.getVideoTracks()[0].getSettings().width;
-  var localVideoHeight = localStream.getVideoTracks()[0].getSettings().height;
-  var localVideoFramerate = localStream.getVideoTracks()[0].getSettings().frameRate;
-  var remoteVideoWidth = remoteStream.getVideoTracks()[0].getSettings().width;
-  var remoteVideoHeight = remoteStream.getVideoTracks()[0].getSettings().height;
-  var remoteVideoFramerate = remoteStream.getVideoTracks()[0].getSettings().frameRate;
-
-  // ReneB: Get current local video codec.
-  var localVideoCodec;
-  var stats = await pc.getStats(null);
-  stats.forEach(stat => {
-    if (!(stat.type === 'outbound-rtp' && stat.kind === 'video')) {
-      return;
-    }
-    localVideoCodec = stats.get(stat.codecId);
-  });
-  // ReneB: Get current remote video codec.
-  var remoteVideoCodec;
-  stats = await pc.getStats(null);
-  stats.forEach(stat => {
-    if (!(stat.type === 'inbound-rtp' && stat.kind === 'video')) {
-      return;
-    }
-    remoteVideoCodec = stats.get(stat.codecId);
-  });
-
-  if (localVideo.videoWidth) {
-    const width = localVideo.videoWidth;
-    const height = localVideo.videoHeight;
+  if (localStream != null) {
+    var localVideoWidth = localStream.getVideoTracks()[0].getSettings().width;
+    var localVideoHeight = localStream.getVideoTracks()[0].getSettings().height;
+    var localVideoFramerate = localStream.getVideoTracks()[0].getSettings().frameRate;
+    // ReneB: Get current local video codec.
+    var localVideoCodec;
+    var stats = await pc.getStats(null);
+    stats.forEach(stat => {
+      if (!(stat.type === 'outbound-rtp' && stat.kind === 'video')) {
+        return;
+      }
+      localVideoCodec = stats.get(stat.codecId);
+    });
     document.getElementById("localVideoStats").innerHTML = `<strong>Local video stats:</strong> ${localVideoWidth}x${localVideoHeight}, ${localVideoFramerate.toFixed(1)} fps, ` + localVideoCodec.mimeType;
   }
-  if (remoteVideo.videoWidth) {
-    const rHeight = remoteVideo.videoHeight;
-    const rWidth = remoteVideo.videoWidth;
+
+  if (remoteStream != null) {
+    var remoteVideoWidth = remoteStream.getVideoTracks()[0].getSettings().width;
+    var remoteVideoHeight = remoteStream.getVideoTracks()[0].getSettings().height;
+    var remoteVideoFramerate = remoteStream.getVideoTracks()[0].getSettings().frameRate;
+    // ReneB: Get current remote video codec.
+    var remoteVideoCodec;
+    stats = await pc.getStats(null);
+    stats.forEach(stat => {
+      if (!(stat.type === 'inbound-rtp' && stat.kind === 'video')) {
+        return;
+      }
+      remoteVideoCodec = stats.get(stat.codecId);
+    });
     document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video stats:</strong> ${remoteVideoWidth}x${remoteVideoHeight}, ${remoteVideoFramerate.toFixed(1)} fps, ` + remoteVideoCodec.mimeType;
   }
 }
