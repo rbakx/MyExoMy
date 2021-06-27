@@ -3,9 +3,9 @@
 var isChannelReady = false;
 var isInitiator = false;
 var isStarted = false;
-var localStream;
+var localStream = null;
 var pc;
-var remoteStream;
+var remoteStream = null;
 var turnReady;
 
 var pcConfig = {
@@ -35,7 +35,6 @@ if (room !== '') {
 }
 
 socket.on('created', function (room) {
-  console.log('***** ReneB: This is the Initiator! ***** Created room ' + room);
   isInitiator = true;
 });
 
@@ -89,10 +88,10 @@ socket.on('message', function (message) {
     pc.addIceCandidate(candidate);
   } else if (message === 'bye' && isStarted) {
     handleRemoteHangup();
-  } else if (message == 'toggleAudioTrue') {
-    toggleAudio(true);
-  } else if (message == 'toggleAudioFalse') {
-    toggleAudio(false);
+  } else if (message == 'toggleTwoway') {
+    toggleTwoway();
+  } else if (message == 'ready') {
+    readyState = true;
   } else if (message == 'reload') {
     location.reload();
   }
@@ -103,7 +102,7 @@ socket.on('message', function (message) {
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
 
-var audioOn = false;
+var twoWayOn = false;
 var constraintsNoAudio = {
   "audio": false,
   "video": {
@@ -165,8 +164,7 @@ function maybeStart() {
   if (!isStarted && isChannelReady) {
     console.log('>>>>>> creating peer connection');
     createPeerConnection();
-    if (typeof localStream !== 'undefined') {
-      localStream.getTracks().forEach(track => console.log('***** ReneB: going to add local localstream, track: ' + track));
+    if (localStream != null) {
       localStream.getTracks().forEach(track => videoTrackSender = pc.addTrack(track, localStream));
     }
     isStarted = true;
@@ -271,7 +269,6 @@ function gotRemoteStream(e) {
   console.log('gotRemoteStream', e.track, e.streams[0]);
   // ReneB: Only renew video when there is a new stream. When only audio is added, video does not have to be renewed.
   if (remoteVideo.srcObject !== e.streams[0]) {
-    console.log('***** ReneB: going to show video!');
     remoteVideo.srcObject = e.streams[0];
     remoteStream = e.streams[0];
   }
@@ -291,9 +288,13 @@ function handleRemoteHangup() {
 }
 
 function stop() {
+  if (twoWayOn == true) {
+    toggleTwoway();
+  }
   isStarted = false;
   pc.close();
   pc = null;
+  localStream = null;
 }
 
 // Define and add behavior to buttons.
@@ -301,20 +302,20 @@ function stop() {
 // Define action buttons.
 const callButton = document.getElementById('callButton');
 const hangupButton = document.getElementById('hangupButton');
-const audioButton = document.getElementById('audioButton');
+const twowayButton = document.getElementById('twowayButton');
 const statsButton = document.getElementById('statsButton');
 
 // Set up initial action buttons status: disable call and hangup.
 callButton.disabled = false;
 hangupButton.disabled = true;
-audioButton.disabled = false;
-audioButton.style.background = 'red';
+twowayButton.disabled = false;
+twowayButton.style.background = 'transparent';
 statsButton.disabled = false;
 
 // Add click event handlers for buttons.
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
-audioButton.addEventListener('click', audioAction);
+twowayButton.addEventListener('click', twowayAction);
 statsButton.addEventListener('click', statsAction);
 
 // ReneB: Handles call button action.
@@ -322,6 +323,7 @@ statsButton.addEventListener('click', statsAction);
 function callAction() {
   callButton.disabled = false;
   hangupButton.disabled = false;
+  callButton.style.background = 'green';
   sendMessage('reload');
 }
 
@@ -329,13 +331,19 @@ function callAction() {
 function hangupAction() {
   callButton.disabled = false;
   hangupButton.disabled = true;
+  callButton.style.background = 'transparent';
   hangup();
 }
 
-// ReneB: Switch audio on and off.
-function audioAction() {
-  audioButton.disabled = true;
-  sendMessage('toggleAudioTrue');
+// ReneB: Toggle 2-way communication.
+// To prevent race contitions the 2-way communication is first set on the remote side (where the 2-way button is pressed) and then on the Exomy.
+// When the Exomy is finished it sets the readyState to true by sending a message back to the remote side.
+// This indicates that the switch on both sides is completed and only then the toggleAudio function can be called again.
+var readyState = true;
+function twowayAction() {
+  if (isStarted == true && readyState == true) {
+    toggleTwoway();
+  }
 }
 
 // ReneB: Shows statistics on request.
@@ -343,11 +351,16 @@ function statsAction() {
   DisplayStats();
 }
 
+// ReneB: The toggleTwoway function toggles between simplex mode and full duplex mode.
+// In simplex mode only video is sent from the Exomy to the remote side.
+// In full duplex mode video and audio is sent both ways.
 var audioTrackSender;
-function toggleAudio(fromRemote) {
-  if (audioOn == false) {
-    audioOn = true;
-    if (fromRemote == true) {
+function toggleTwoway() {
+  readyState = false;
+  twowayButton.disabled = true;
+  if (twoWayOn == false) { // ReneB: Switch to full duplex mode.
+    twoWayOn = true;
+    if (location.hostname == 'localhost') {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then(stream => {
@@ -360,8 +373,10 @@ function toggleAudio(fromRemote) {
         // ReneB: Use arrow function otherwise code is executed immediately.
         .then(() => doCall())
         .then(() => localVideo.srcObject = localStream)
-        .then(() => sendMessage('toggleAudioFalse'))
-        .then(() => audioButton.style.background = 'green');
+        .then(() => sendMessage('ready'))
+        .then(() => twowayButton.style.background = 'green')
+        .then(() => twowayButton.disabled = false);
+      // ReneB: resize video to accomodate full duplex mode.
       remoteVideo.style.width = '60%';
       localVideo.style.width = '20%';
     }
@@ -385,34 +400,38 @@ function toggleAudio(fromRemote) {
         // ReneB: Use arrow function otherwise code is executed immediately.
         .then(() => doCall())
         .then(() => localVideo.srcObject = localStream)
-        .then(() => audioButton.style.background = 'green')
-        .then(() => audioButton.disabled = false);
+        .then(() => sendMessage('toggleTwoway'))  // This remote side has switched on 2-way communication. Now send message to the Emomy to also switch on 2-way communication.
+        .then(() => twowayButton.style.background = 'green')
+        .then(() => twowayButton.disabled = false);
+      // ReneB: resize video to accomodate full duplex mode.
       remoteVideo.style.width = '60%';
       localVideo.style.width = '20%';
     }
   }
-  else {
-    audioOn = false;
+  else { // ReneB: Switch to simplex mode.
+    twoWayOn = false;
     console.log(`going to remove audio: ${audioTrackSender}`);
     pc.removeTrack(audioTrackSender);
-    if (fromRemote == true) {
+    if (location.hostname == 'localhost') {
       remoteVideo.srcObject = null;
-      sendMessage('toggleAudioFalse');
+      sendMessage('ready');
     }
     else {
       console.log(`going to remove video: ${videoTrackSender}`);
       pc.removeTrack(videoTrackSender);
+      // ReneB: resize video to accomodate simplex mode.
       remoteVideo.style.width = '80%';
       localVideo.style.width = '0%';
+      sendMessage('toggleTwoway'); // This remote side has switched off 2-way communication. Now send message to the Emomy to also switch off 2-way communication.
     }
-    audioButton.style.background = 'red';
-    audioButton.disabled = false;
+    twowayButton.style.background = 'transparent';
+    twowayButton.disabled = false;
     localVideo.srcObject = null;
   }
 }
 
 async function DisplayStats() {
-  if (localStream != null) {
+  if (localStream != null && pc != null) {
     var localVideoWidth = localStream.getVideoTracks()[0].getSettings().width;
     var localVideoHeight = localStream.getVideoTracks()[0].getSettings().height;
     var localVideoFramerate = localStream.getVideoTracks()[0].getSettings().frameRate;
@@ -428,7 +447,7 @@ async function DisplayStats() {
     document.getElementById("localVideoStats").innerHTML = `<strong>Local video stats:</strong> ${localVideoWidth}x${localVideoHeight}, ${localVideoFramerate.toFixed(1)} fps, ` + localVideoCodec.mimeType;
   }
 
-  if (remoteStream != null) {
+  if (remoteStream != null && pc != null) {
     var remoteVideoWidth = remoteStream.getVideoTracks()[0].getSettings().width;
     var remoteVideoHeight = remoteStream.getVideoTracks()[0].getSettings().height;
     var remoteVideoFramerate = remoteStream.getVideoTracks()[0].getSettings().frameRate;
