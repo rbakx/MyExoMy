@@ -1,0 +1,29 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+1,P01_Chassis,Default,1
+2,P04_Battery_Holddown,Default,1
+3,P14_Raspi_Holder,Default,2
+4,P15_DCDC_Holddown,Default,2
+5,P02_Drill,Default,1
+6,P13_Port_Cover,Default,1
+7,P03_Bogie_Bearing,Default,3
+8,P17_Bogie_Cable_Cover,Rear Cover,1
+9,P19_Bogie,Rear Bogie,1
+10,P28_Wheel_Bracket_Split,Right Wiring,3
+11,P29_Wheel_Bracket_Fixing_Plate,Default,6
+12,P32_Wheel_Fixing_Plate_U_Shape,Default,6
+13,P28_Wheel_Bracket_Split,Left Wiring,3
+14,P17_Bogie_Cable_Cover,Side,2
+15,P19_Bogie,Side,2
+16,P11_Top,Default,1
+17,P12_Solar_Panel,Right,1
+18,P12_Solar_Panel,Left,1
+19,P21_Mast,Default,1
+20,P20_Head,Default,1
+21,P22_Eye_White,Default,2
+22,P23_Eye_Pupil,Default,2
+23,P24_Mouth_Latch,Default,1
+24,P25_Mouth,Grin,1
+25,P33_Cam_Holder_Flat,Default,1
+26,P26_Hat,Eyebrows,1
+27,P30_Wheel,Default,6

@@ -1,0 +1,55 @@
+{
+  "build": {
+    "core": "arduino",
+    "extra_flags": "-DARDUINO_AVR_UNO",
+    "f_cpu": "16000000L",
+    "hwids": [
+      [
+        "0x2341",
+        "0x0043"
+      ],
+      [
+        "0x2341",
+        "0x0001"
+      ],
+      [
+        "0x2341",
+        "0x0243"
+      ],
+      [
+        "0x2A03",
+        "0x0043"
+      ]
+    ],
+    "mcu": "atmega328p",
+    "variant": "standard"
+  },
+  "bootloader": {
+    "efuse": "0x05",
+    "file": "optiboot/optiboot_atmega328.hex",
+    "hfuse": "0xDA",
+    "lock_bits": "0x0F",
+    "lfuse": "0xE2",
+    "unlock_bits": "0x3F"
+  },
+  "debug": {
+    "simavr_target": "atmega328p",
+    "avr-stub": {
+      "speed": 115200
+    }
+  },
+  "frameworks": [
+    "arduino",
+    "simba"
+  ],
+  "name": "Atmega328 on breadboard 8MHz",
+  "upload": {
+    "maximum_ram_size": 2048,
+    "maximum_size": 32256,
+    "protocol": "arduino",
+    "require_upload_port": true,
+    "speed": 57600
+  },
+  "url": "https://www.arduino.cc/en/Main/ArduinoBoardUno",
+  "vendor": "Arduino"
+}

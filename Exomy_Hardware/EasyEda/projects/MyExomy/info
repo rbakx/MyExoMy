@@ -1,0 +1,534 @@
+{
+  "uuid": "6abbbb2870ec7e50cf366454f26ef443",
+  "path": "Offline/MyExomy",
+  "name": "MyExomy",
+  "content": "",
+  "created_at": "2021-04-03 12:52:32",
+  "updated_at": "2021-05-07 08:46:37",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "42cdfd922080ef4b741b08e36c1ef085",
+      "title": "Circuit_Power",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "70c2ab06c08d4b8d8ff8ec184eceebb0": 2,
+        "dae7f97ebfa34b9a8267d29ce0d9d6dd": 14,
+        "36628af0fe3849a2f482991ed56c81b7": 1,
+        "fc217faf64a940a397750f89d4f53ff3": 2,
+        "8d30cb5f727d4b9cbb85f010a40eda99": 15,
+        "24eeb2ceca08480b92b847b6a310acda": 2,
+        "26358a93de3c4a4393ba6d2a0119604e": 1,
+        "091438019a49401eb6eedf35fdb0bd60": 1,
+        "016a65d749e64d3381a6ae15028425db": 2,
+        "396e2baa39fd43c39e0e5b424425eeab": 1,
+        "8341ffaacea84145a5e199456c99b567": 1,
+        "64b9e37e6c624d24bd78d8a0cd066ce5": 1,
+        "8fad0630374444fa8303a9c8e9e336f7": 1,
+        "51e1b96213025ed2986fc4bc4cd0d08d": 1,
+        "ddeb553b7792411a9c497232bc849e0a": 1,
+        "accc526fac024edba46b042890b7936d": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "4.8V",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "4.8V",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "6V out switched",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "6VSWITCHED",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "6V out",
+          2,
+          "H2-5.0-10.5X8.0MM",
+          "6VOUT,SERVO",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "5V out switched",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "5VSWTITCHED",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "6V (5x1.2V NiMH 5500 mAh)",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "BAT",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "LED left",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "LL",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "LED right",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "LR",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Wakeup",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "WAKEUP",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Light sensor",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "LDR",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "RPi switch",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "RPISWITCH",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Charge",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "CHARGE",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "I2C",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "I2C",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "Solar panel 20W",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "SOL",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "5V out",
+          1,
+          "H2-5.0-10.5X8.0MM",
+          "RPI",
+          {
+            "BOM_Manufacturer Part": "?",
+            "puuid": "e8260323ff984d118782bc3786c51e77",
+            "uuid": "8d30cb5f727d4b9cbb85f010a40eda99"
+          }
+        ],
+        [
+          "BC557C",
+          1,
+          "TO-92-3_L4.9-W3.7-P1.27-L",
+          "Q6",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C713618",
+            "BOM_Manufacturer": "LGE",
+            "BOM_Manufacturer Part": "BC557C",
+            "BOM_LCSC Assembly": "Yes",
+            "BOM_Paste Type": "expand",
+            "puuid": "6924b36489de4921bb29ca14bf27c33f",
+            "uuid": "8fad0630374444fa8303a9c8e9e336f7"
+          }
+        ],
+        [
+          "1N4002",
+          1,
+          "DO-41",
+          "D1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "6a70b28b15f943919bf7a1a19c011afb",
+            "uuid": "016a65d749e64d3381a6ae15028425db"
+          }
+        ],
+        [
+          "1N5060",
+          1,
+          "DO-41",
+          "D3",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "6a70b28b15f943919bf7a1a19c011afb",
+            "uuid": "016a65d749e64d3381a6ae15028425db"
+          }
+        ],
+        [
+          "0.1u",
+          2,
+          "CONDENSATOR 0.1UF",
+          "C1,C2",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "7e965212c9904ae296c36cc77572a3e0",
+            "uuid": "24eeb2ceca08480b92b847b6a310acda"
+          }
+        ],
+        [
+          "TL431ACLP",
+          1,
+          "TO-92-3_L4.9-W3.7-P1.27-L",
+          "U6",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "TI",
+            "BOM_Manufacturer Part": "TL431ACLP",
+            "BOM_Supplier Part": "C5234",
+            "BOM_LCSC Assembly": "Yes",
+            "BOM_Paste Type": "expand",
+            "puuid": "6924b36489de4921bb29ca14bf27c33f",
+            "uuid": "51e1b96213025ed2986fc4bc4cd0d08d"
+          }
+        ],
+        [
+          "10K",
+          1,
+          "RES-ADJ_3296W",
+          "POT1",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "a4ca010af9624cec8388569e4d5538a0",
+            "uuid": "64b9e37e6c624d24bd78d8a0cd066ce5"
+          }
+        ],
+        [
+          "IRLB8721PbF",
+          2,
+          "T0220AB",
+          "M2,M1",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "febeab670b1b4d8b9bc81df7b04d486e",
+            "uuid": "70c2ab06c08d4b8d8ff8ec184eceebb0"
+          }
+        ],
+        [
+          "1N4148",
+          1,
+          "DO35-10",
+          "D2",
+          {
+            "BOM_Manufacturer Part": "",
+            "puuid": "0ab73373a77a4052b763f9a2daa7f5d3",
+            "uuid": "396e2baa39fd43c39e0e5b424425eeab"
+          }
+        ],
+        [
+          "22uF",
+          1,
+          "CAP-D5",
+          "C3",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "39489f78925148399b28b4cec7b8852b",
+            "uuid": "8341ffaacea84145a5e199456c99b567"
+          }
+        ],
+        [
+          "RGB LED connector",
+          1,
+          "RGB LED CONNECTOR",
+          "U2",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4e0bf0f9b7aa4d0080bcb97d21abada5",
+            "uuid": "26358a93de3c4a4393ba6d2a0119604e"
+          }
+        ],
+        [
+          "ATMEGA328P-PU",
+          1,
+          "DIP-28_L34.6-W7.3-P2.54-LS10.2-BL",
+          "U1",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "MICROCHIP",
+            "BOM_Manufacturer Part": "ATMEGA328P-PU",
+            "BOM_Supplier Part": "C33901",
+            "puuid": "2f1d96128ab94db491eae99d61bfb39c",
+            "uuid": "36628af0fe3849a2f482991ed56c81b7"
+          }
+        ],
+        [
+          "L4940V5",
+          1,
+          "TO-220-3_L10.0-W4.5-P2.54-T",
+          "U3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "STMicroelectronics",
+            "BOM_Manufacturer Part": "L4940V5",
+            "BOM_Supplier Part": "C92218",
+            "puuid": "fb8b10620b5a459d9b03fd14987346f4",
+            "uuid": "091438019a49401eb6eedf35fdb0bd60"
+          }
+        ],
+        [
+          "Omron G6B-1114P-US",
+          1,
+          "OMRON G6B-1114P-US-FOOTPRINT",
+          "U4",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "179a1c8f558441ec87c5909a271efa08",
+            "uuid": "accc526fac024edba46b042890b7936d"
+          }
+        ],
+        [
+          "330",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R6",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "10K",
+          7,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R7,R2,R14,R11,R12,R5,R4",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "68K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R8",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "2.7",
+          2,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R1,R3",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "205K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R13",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "10",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R9",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "15K",
+          1,
+          "RESISTOR-1/4W-HORIZONTAL",
+          "R10",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "a6f62f03d0f7481fa82dfaa4df1b1955",
+            "uuid": "dae7f97ebfa34b9a8267d29ce0d9d6dd"
+          }
+        ],
+        [
+          "TIP32C",
+          1,
+          "TO-220AB-3_L10.4-W4.6-P2.54-T",
+          "Q3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "STMicroelectronics",
+            "BOM_Manufacturer Part": "TIP32C",
+            "BOM_Supplier Part": "C75057",
+            "puuid": "ee75d565d98543bdb55a4484e2b5f9d7",
+            "uuid": "ddeb553b7792411a9c497232bc849e0a"
+          }
+        ],
+        [
+          "BC547C",
+          2,
+          "TO-92-3_L4.9-W3.7-P1.27-L",
+          "Q2,Q1",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C713614",
+            "BOM_Manufacturer": "LGE",
+            "BOM_Manufacturer Part": "BC547C",
+            "puuid": "6924b36489de4921bb29ca14bf27c33f",
+            "uuid": "fc217faf64a940a397750f89d4f53ff3"
+          }
+        ]
+      ],
+      "updateTime": 1620108614,
+      "createTime": 1617447199,
+      "histories": [],
+      "created_at": "2021-04-03 12:53:19",
+      "updated_at": "2021-05-04 08:10:14"
+    },
+    {
+      "uuid": "e78d8e438bdabcb18874da702dcfc94e",
+      "puuid": "6abbbb2870ec7e50cf366454f26ef443",
+      "title": "PCB_MyExomy",
+      "filename": "PCB_MyExomy.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "a6f62f03d0f7481fa82dfaa4df1b1955": 14,
+        "e8260323ff984d118782bc3786c51e77": 15,
+        "6a70b28b15f943919bf7a1a19c011afb": 2,
+        "7e965212c9904ae296c36cc77572a3e0": 2,
+        "febeab670b1b4d8b9bc81df7b04d486e": 2,
+        "0ab73373a77a4052b763f9a2daa7f5d3": 1,
+        "39489f78925148399b28b4cec7b8852b": 1,
+        "4e0bf0f9b7aa4d0080bcb97d21abada5": 1,
+        "2f1d96128ab94db491eae99d61bfb39c": 1,
+        "a4ca010af9624cec8388569e4d5538a0": 1,
+        "ee75d565d98543bdb55a4484e2b5f9d7": 1,
+        "6924b36489de4921bb29ca14bf27c33f": 4,
+        "fb8b10620b5a459d9b03fd14987346f4": 1,
+        "179a1c8f558441ec87c5909a271efa08": 1
+      },
+      "BOM": [],
+      "updateTime": 1619987952,
+      "createTime": 1618082834,
+      "histories": [],
+      "created_at": "2021-04-10 21:27:14",
+      "updated_at": "2021-05-02 22:39:12"
+    }
+  ],
+  "sort": [
+    "42cdfd922080ef4b741b08e36c1ef085"
+  ],
+  "title": "MyExomy",
+  "foldername": "MyExomy",
+  "schfilename": "MyExomy.json",
+  "schfilemtime": 1620369997199
+}

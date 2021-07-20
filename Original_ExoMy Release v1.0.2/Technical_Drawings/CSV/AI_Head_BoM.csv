@@ -1,0 +1,12 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+1,P20_Head,Default,1
+2,P22_Eye_White,Default,2
+3,P23_Eye_Pupil,Default,2
+4,P24_Mouth_Latch,Default,1
+5,P25_Mouth,Grin,1
+6,P33_Cam_Holder_Flat,Default,1
+7,Raspberry Pi Camera V2,Default,1
+8,SFB3_6,Countersink Head M3x6,8
+9,SCB2_5,Socket Head M2x5,4
+10,SCB3_8,Socket Head M3x8,2

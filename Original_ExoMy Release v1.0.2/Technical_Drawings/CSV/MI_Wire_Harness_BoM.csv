@@ -1,0 +1,12 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+1,USB-C Plug,Default,1
+2,DC_DC_VMA404,Default,2
+3,Toggle Switch,Default,1
+4,Rocker Switch,Default,1
+5,Power_Switch_to_DCDC_Cable,Default,1
+6,XT-60_Macho Male Pins,Default,1
+7,DCDC_to_PWM_Board_Cable,Default,1
+8,Switches_to_DCDC_Cable,Default,1
+9,Battery_to_Switch_Cable,Default,1
+10,Shrink_Tube,Default,8

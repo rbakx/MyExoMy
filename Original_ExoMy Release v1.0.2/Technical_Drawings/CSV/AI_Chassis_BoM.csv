@@ -1,0 +1,24 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+1,P01_Chassis,Two Color Print,1
+2,P04_Battery_Holddown,Default,1
+3,P14_Raspi_Holder,Default,2
+4,P15_DCDC_Holddown,Default,2
+5,P03_Bogie_Bearing,Default,3
+6,DC_DC_VMA404,Default,2
+7,Conrad LiPo 3S 3000mAh - 1344138,Default,1
+8,XT-60_Macho Male Pins,Default,1
+9,Toggle Switch,Default,1
+10,Rocker Switch,Default,1
+11,Button Head M4x10,Button Head M4x10,12
+12,SCB3_8,Socket Head M3x8,9
+13,SCB3_20,Socket Head M3x20,4
+14,M3-Insert,Brass Insert M3,4
+15,Zip_Tie,Body,1
+16,Zip_Tie,Body Wide,2
+17,Shrink_Tube,Default,8
+18,USB-C Plug,Default,1
+19,Power_Switch_to_DCDC_Cable,Default,1
+20,DCDC_to_PWM_Board_Cable,Default,1
+21,Switches_to_DCDC_Cable,Default,1
+22,Battery_to_Switch_Cable,Default,1

@@ -1,0 +1,22 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+2,P02_Drill,Default,1
+8,P32_Wheel_Fixing_Plate_U_Shape,Default,6
+10,SCB3_8,Socket Head M3x8,12
+13,P17_Bogie_Cable_Cover,Rear Cover,1
+14,Button Head M4x16,Button Head M4x16,6
+15,SFB3_6,Countersink Head M3x6,3
+16,Button Head M5x30,Button Head M5x30,3
+20,P17_Bogie_Cable_Cover,Two Color Print,2
+22,P13_Port_Cover,Default,1
+32,P26_Hat,Eyebrows,1
+41,Phillips Head M2.5x6,Phillips Head M2.5x6,3
+42,M2_5x11,Standoff M2.5x11,3
+45,Raspberry Pi 4 Model B,Default,1
+46,Adafruit PWM Servo HAT,Default,1
+48,Conrad LiPo 3S 3000mAh - 1344138,Default,1
+49,Battery Alarm,Default,1
+53,P30_Wheel,Default,6
+54,Parallax-Servo-Horn,Default,12
+57,Servo Extension Cable,Default,6
+59,Long_Camera_Cabel,Default,1

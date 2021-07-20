@@ -1,0 +1,16 @@
+Bill of Materials,,,
+ITEM NO.,PART NUMBER,CONFIG NAME,QTY.
+1,Parallax-Servo,Steering Modded,2
+2,Parallax-Servo-Screw,Default,4
+3,P28_Wheel_Bracket_Split,Left Wiring,1
+4,P29_Wheel_Bracket_Fixing_Plate,Default,2
+5,Button Head M4x10,Button Head M4x10,14
+6,SCB3_8,Socket Head M3x8,4
+7,P28_Wheel_Bracket_Split,Right Wiring,1
+8,P19_Bogie,Two Color Print,1
+9,Zip_Tie,Bogie,2
+10,Parallax-Servo,Continuous,2
+11,Zip_Tie,Body,2
+12,Parallax-Servo-Horn,Default,4
+13,Servo Extension Cable,Left,1
+14,Servo Extension Cable,Right,1
