@@ -183,7 +183,10 @@ window.onbeforeunload = function () {
 
 function createPeerConnection() {
   try {
-    pc = new RTCPeerConnection(null);
+    // ReneB: added pcConfig parameter below to enable STUN server to be used.
+    // The STUN server is to enable a peer behind a NAT to find out its public address and port.
+    // This is needed to connect between peers outside a LAN.
+    pc = new RTCPeerConnection(pcConfig);
     pc.onicecandidate = handleIceCandidate;
     pc.ontrack = gotRemoteStream;
     console.log('Created RTCPeerConnnection');
