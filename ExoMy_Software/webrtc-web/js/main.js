@@ -1,6 +1,5 @@
 'use strict';
 
-var isChannelReady = false;
 var isInitiator = false;
 var isStarted = false;
 var localStream = null;
@@ -21,40 +20,14 @@ var sdpConstraints = {
 };
 
 /////////////////////////////////////////////
-var room = 'foo';
-// Could prompt for room name:
-// room = prompt('Enter room name:');
-
 var socket = io.connect();
 
-if (room !== '') {
-  socket.emit('create or join', room);
-  console.log('Attempted to create or  join room', room);
-  // ReneB: set isInitiator right at the start.
+if (location.hostname == 'localhost') {
   isInitiator = true;
 }
-
-socket.on('created', function (room) {
-  isInitiator = true;
-});
-
-socket.on('full', function (room) {
-  console.log('Room ' + room + ' is full');
-});
-
-socket.on('join', function (room) {
-  console.log('Another peer made a request to join room ' + room);
-  console.log('This peer is the initiator of room ' + room + '!');
-  isChannelReady = true;
-  // ReneB: as soon as the other side does a join request (which happens after a load or reload of the other side's page), he is the initiator, so make isInitiator fase.
-  // If the other side is initially the initiator and does nothing, then a page refresh at this side will set the other side's isInitiator to false (see handleRemoteHangup()) and this side will continue as the initiator.
+else {
   isInitiator = false;
-});
-
-socket.on('joined', function (room) {
-  console.log('joined: ' + room);
-  isChannelReady = true;
-});
+}
 
 socket.on('log', function (array) {
   console.log.apply(console, array);
@@ -101,6 +74,7 @@ socket.on('message', function (message) {
 
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
+var header1 = document.querySelector('#header1');
 
 var twoWayOn = false;
 var constraintsNoAudio = {
@@ -142,9 +116,13 @@ if (location.hostname == 'localhost') {
 }
 
 function gotStream(stream) {
-  console.log('Adding local stream.');
-  localStream = stream;
-  //localVideo.srcObject = stream;
+  // ReneB: On the localhost, start with showing the local video stream.
+  if (location.hostname == 'localhost') {
+    console.log('Adding local stream.');
+    localStream = stream;
+    localVideo.srcObject = stream;
+    ShowLocalVideoOnly();
+  }
   sendMessage('got user media');
   if (isInitiator) {
     maybeStart();
@@ -160,8 +138,8 @@ if (location.hostname !== 'localhost') {
 var videoTrackSender;
 // ReneB: maybeStart: create peer connection, add local tracks and if initiator execute doCall: create offer and send message. setRemoteDescription is called right after maybeStart.
 function maybeStart() {
-  console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
-  if (!isStarted && isChannelReady) {
+  console.log('>>>>>>> maybeStart() ', isStarted, localStream);
+  if (!isStarted ) {
     console.log('>>>>>> creating peer connection');
     createPeerConnection();
     if (localStream != null) {
@@ -375,13 +353,11 @@ function toggleTwoway() {
         })
         // ReneB: Use arrow function otherwise code is executed immediately.
         .then(() => doCall())
-        .then(() => localVideo.srcObject = localStream)
         .then(() => sendMessage('ready'))
         .then(() => twowayButton.style.background = 'green')
         .then(() => twowayButton.disabled = false);
       // ReneB: resize video to accomodate full duplex mode.
-      remoteVideo.style.width = '60%';
-      localVideo.style.width = '20%';
+      ShowRemoteAndLocalVideo();
     }
     else {
       navigator.mediaDevices
@@ -418,6 +394,7 @@ function toggleTwoway() {
     if (location.hostname == 'localhost') {
       remoteVideo.srcObject = null;
       sendMessage('ready');
+      ShowLocalVideoOnly();
     }
     else {
       console.log(`going to remove video: ${videoTrackSender}`);
@@ -428,8 +405,7 @@ function toggleTwoway() {
       sendMessage('toggleTwoway'); // This remote side has switched off 2-way communication. Now send message to the Emomy to also switch off 2-way communication.
     }
     twowayButton.style.background = 'transparent';
-    twowayButton.disabled = false;
-    localVideo.srcObject = null;
+    twowayButton.disabled = false;;
   }
 }
 
@@ -465,4 +441,21 @@ async function DisplayStats() {
     });
     document.getElementById("remoteVideoStats").innerHTML = `<strong>Remote video stats:</strong> ${remoteVideoWidth}x${remoteVideoHeight}, ${remoteVideoFramerate.toFixed(1)} fps, ` + remoteVideoCodec.mimeType;
   }
+}
+
+function ShowLocalVideoOnly() {
+  remoteVideo.style.display = 'none';
+  stats.style.display = 'none';
+  buttons.style.display = 'none';
+  localVideo.style.position = 'absolute';
+  localVideo.style.left = '15%';
+  localVideo.style.width = '70%';
+}
+
+function ShowRemoteAndLocalVideo() {
+  remoteVideo.style.display = 'inline-block';
+  remoteVideo.style.width = '70%';
+  localVideo.style.position = 'relative';
+  localVideo.style.left = '0%';
+  localVideo.style.width = '20%';
 }

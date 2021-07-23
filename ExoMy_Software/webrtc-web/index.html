@@ -11,14 +11,17 @@
 
 <body>
 
-  <h1>Realtime communication with WebRTC</h1>
+  <div id="videos">
+    <video id="remoteVideo" autoplay playsinline></video>
+    <video id="localVideo" autoplay muted playsinline></video>
+  </div>
 
-  <video id="remoteVideo" autoplay playsinline></video>
-  <video id="localVideo" autoplay muted playsinline></video>
-  <p id="remoteVideoStats">Remote video dimensions: press Statistics</p>
-  <p id="localVideoStats">Local video dimensions: press Statistics</p>
-  
-  <div>
+  <div id="stats">
+    <p id="remoteVideoStats">Remote video dimensions: press Statistics</p>
+    <p id="localVideoStats">Local video dimensions: press Statistics</p>
+  </div>
+
+  <div id="buttons">
     <button id="callButton">Call</button>
     <button id="hangupButton">Hang Up</button>
     <button id="twowayButton">2-way</button>
