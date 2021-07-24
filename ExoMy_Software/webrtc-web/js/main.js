@@ -1,11 +1,9 @@
 'use strict';
 
-var isInitiator = false;
 var isStarted = false;
 var localStream = null;
 var pc;
 var remoteStream = null;
-var turnReady;
 
 var pcConfig = {
   'iceServers': [{
@@ -19,15 +17,17 @@ var sdpConstraints = {
   offerToReceiveVideo: true
 };
 
-/////////////////////////////////////////////
-var socket = io.connect();
-
+// ReneB: Check whether this client is MyExoMy or the remote client.
+var isMyExoMy;
 if (location.hostname == 'localhost') {
-  isInitiator = true;
+  isMyExoMy = true;
 }
 else {
-  isInitiator = false;
+  isMyExoMy = false;
 }
+
+/////////////////////////////////////////////
+var socket = io.connect();
 
 socket.on('log', function (array) {
   console.log.apply(console, array);
@@ -44,10 +44,10 @@ function sendMessage(message) {
 socket.on('message', function (message) {
   console.log('Client received message:', message);
   if (message === 'got user media') {
-    //maybeStart();
+    // ReneB: No action here.
   } else if (message.type === 'offer') {
-    if (!isInitiator && !isStarted) {
-      maybeStart();
+    if (isMyExoMy == false && !isStarted) {
+      createPeerConnectionAndAddLocalTracks();
     }
     pc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
@@ -107,57 +107,61 @@ var constraintsWithAudio = {
   }
 };
 
-if (location.hostname == 'localhost') {
+if (isMyExoMy == true) {
   navigator.mediaDevices.getUserMedia(constraintsNoAudio)
     .then(gotStream)
+    .then(createPeerConnectionAndAddLocalTracks)
+    .then(createOfferAndSendToPeer)
     .catch(function (e) {
       alert('getUserMedia() error: ' + e.name);
     });
-}
-
-function gotStream(stream) {
-  // ReneB: On the localhost, start with showing the local video stream.
-  if (location.hostname == 'localhost') {
-    console.log('Adding local stream.');
-    localStream = stream;
-    localVideo.srcObject = stream;
-    ShowLocalVideoOnly();
-  }
-  sendMessage('got user media');
-  if (isInitiator) {
-    maybeStart();
-  }
-}
-
-if (location.hostname !== 'localhost') {
-  requestTurn(
-    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-  );
-}
-
-var videoTrackSender;
-// ReneB: maybeStart: create peer connection, add local tracks and if initiator execute doCall: create offer and send message. setRemoteDescription is called right after maybeStart.
-function maybeStart() {
-  console.log('>>>>>>> maybeStart() ', isStarted, localStream);
-  if (!isStarted ) {
-    console.log('>>>>>> creating peer connection');
-    createPeerConnection();
-    if (localStream != null) {
-      localStream.getTracks().forEach(track => videoTrackSender = pc.addTrack(track, localStream));
-    }
-    isStarted = true;
-    console.log('isInitiator', isInitiator);
-    if (isInitiator) {
-      doCall();
-    }
-  }
 }
 
 window.onbeforeunload = function () {
   sendMessage('bye');
 };
 
-/////////////////////////////////////////////////////////
+
+function gotStream(stream) {
+  // ReneB: On the MyExoMy, start with showing the local video stream.
+  console.log('Adding local stream.');
+  localStream = stream;
+  localVideo.srcObject = stream;
+  ShowLocalVideoOnly();
+  sendMessage('got user media');
+}
+
+
+var remoteStream;
+function gotRemoteStream(e) {
+  console.log('gotRemoteStream', e.track, e.streams[0]);
+  // ReneB: Only renew video when there is a new stream. When only audio is added, video does not have to be renewed.
+  if (remoteVideo.srcObject !== e.streams[0]) {
+    remoteVideo.srcObject = e.streams[0];
+    remoteStream = e.streams[0];
+  }
+}
+
+
+var videoTrackSender;
+function createPeerConnectionAndAddLocalTracks() {
+  console.log('>>>>>>> createPeerConnectionAndAddLocalTracks() ', isStarted, localStream);
+  if (!isStarted) {
+    console.log('>>>>>> creating peer connection');
+    createPeerConnection();
+    if (localStream != null) {
+      localStream.getTracks().forEach(track => videoTrackSender = pc.addTrack(track, localStream));
+    }
+    isStarted = true;
+  }
+}
+
+
+function createOfferAndSendToPeer() {
+  console.log('Sending offer to peer');
+  pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+}
+
 
 function createPeerConnection() {
   try {
@@ -175,6 +179,19 @@ function createPeerConnection() {
   }
 }
 
+
+function setLocalAndSendMessage(sessionDescription) {
+  pc.setLocalDescription(sessionDescription);
+  console.log('setLocalAndSendMessage sending message', sessionDescription);
+  sendMessage(sessionDescription);
+}
+
+
+function handleCreateOfferError(event) {
+  console.log('createOffer() error: ', event);
+}
+
+
 function handleIceCandidate(event) {
   console.log('icecandidate event: ', event);
   if (event.candidate) {
@@ -189,14 +206,7 @@ function handleIceCandidate(event) {
   }
 }
 
-function handleCreateOfferError(event) {
-  console.log('createOffer() error: ', event);
-}
 
-function doCall() {
-  console.log('Sending offer to peer');
-  pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
-}
 // ReneB: doAnswer: create answer and send message. setRemoteDescription is called just before doAnswer.
 function doAnswer() {
   console.log('Sending answer to peer.');
@@ -206,53 +216,9 @@ function doAnswer() {
   );
 }
 
-function setLocalAndSendMessage(sessionDescription) {
-  pc.setLocalDescription(sessionDescription);
-  console.log('setLocalAndSendMessage sending message', sessionDescription);
-  sendMessage(sessionDescription);
-}
 
 function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString());
-}
-
-function requestTurn(turnURL) {
-  var turnExists = false;
-  for (var i in pcConfig.iceServers) {
-    if (pcConfig.iceServers[i].urls.substr(0, 5) === 'turn:') {
-      turnExists = true;
-      turnReady = true;
-      break;
-    }
-  }
-  if (!turnExists) {
-    console.log('Getting TURN server from ', turnURL);
-    // No TURN server. Get one from computeengineondemand.appspot.com:
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        var turnServer = JSON.parse(xhr.responseText);
-        console.log('Got TURN server: ', turnServer);
-        pcConfig.iceServers.push({
-          'urls': 'turn:' + turnServer.username + '@' + turnServer.turn,
-          'credential': turnServer.password
-        });
-        turnReady = true;
-      }
-    };
-    xhr.open('GET', turnURL, true);
-    xhr.send();
-  }
-}
-
-var remoteStream;
-function gotRemoteStream(e) {
-  console.log('gotRemoteStream', e.track, e.streams[0]);
-  // ReneB: Only renew video when there is a new stream. When only audio is added, video does not have to be renewed.
-  if (remoteVideo.srcObject !== e.streams[0]) {
-    remoteVideo.srcObject = e.streams[0];
-    remoteStream = e.streams[0];
-  }
 }
 
 
@@ -262,11 +228,12 @@ function hangup() {
   sendMessage('bye');
 }
 
+
 function handleRemoteHangup() {
   console.log('Session terminated.');
   stop();
-  isInitiator = false;
 }
+
 
 function stop() {
   if (twoWayOn == true) {
@@ -278,6 +245,7 @@ function stop() {
   localStream = null;
 }
 
+
 // Define and add behavior to buttons.
 
 // Define action buttons.
@@ -286,6 +254,7 @@ const hangupButton = document.getElementById('hangupButton');
 const twowayButton = document.getElementById('twowayButton');
 const statsButton = document.getElementById('statsButton');
 
+
 // Set up initial action buttons status: disable call and hangup.
 callButton.disabled = false;
 hangupButton.disabled = true;
@@ -293,20 +262,23 @@ twowayButton.disabled = false;
 twowayButton.style.background = 'transparent';
 statsButton.disabled = false;
 
+
 // Add click event handlers for buttons.
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
 twowayButton.addEventListener('click', twowayAction);
 statsButton.addEventListener('click', statsAction);
 
+
 // ReneB: Handles call button action.
-// ReneB: Currenty this initiates a page reload which renew the connection.
+// ReneB: Currenty this initiates a page reload which renews the connection.
 function callAction() {
   callButton.disabled = false;
   hangupButton.disabled = false;
   callButton.style.background = 'green';
   sendMessage('reload');
 }
+
 
 // ReneB: Handles hangup action.
 function hangupAction() {
@@ -316,9 +288,10 @@ function hangupAction() {
   hangup();
 }
 
+
 // ReneB: Toggle 2-way communication.
 // To prevent race contitions the 2-way communication is first set on the remote side (where the 2-way button is pressed) and then on the Exomy.
-// When the Exomy is finished it sets the readyState to true by sending a message back to the remote side.
+// When the MyExoMy is finished it sets the readyState to true by sending a message back to the remote side.
 // This indicates that the switch on both sides is completed and only then the toggleAudio function can be called again.
 var readyState = true;
 function twowayAction() {
@@ -327,13 +300,15 @@ function twowayAction() {
   }
 }
 
+
 // ReneB: Shows statistics on request.
 function statsAction() {
   DisplayStats();
 }
 
+
 // ReneB: The toggleTwoway function toggles between simplex mode and full duplex mode.
-// In simplex mode only video is sent from the Exomy to the remote side.
+// In simplex mode only video is sent from the MyExoMy to the remote side.
 // In full duplex mode video and audio is sent both ways.
 var audioTrackSender;
 function toggleTwoway() {
@@ -341,7 +316,7 @@ function toggleTwoway() {
   twowayButton.disabled = true;
   if (twoWayOn == false) { // ReneB: Switch to full duplex mode.
     twoWayOn = true;
-    if (location.hostname == 'localhost') {
+    if (isMyExoMy == true) {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then(stream => {
@@ -352,7 +327,7 @@ function toggleTwoway() {
           }
         })
         // ReneB: Use arrow function otherwise code is executed immediately.
-        .then(() => doCall())
+        .then(() => createOfferAndSendToPeer())
         .then(() => sendMessage('ready'))
         .then(() => twowayButton.style.background = 'green')
         .then(() => twowayButton.disabled = false);
@@ -377,9 +352,9 @@ function toggleTwoway() {
           }
         })
         // ReneB: Use arrow function otherwise code is executed immediately.
-        .then(() => doCall())
+        .then(() => createOfferAndSendToPeer())
         .then(() => localVideo.srcObject = localStream)
-        .then(() => sendMessage('toggleTwoway'))  // This remote side has switched on 2-way communication. Now send message to the Emomy to also switch on 2-way communication.
+        .then(() => sendMessage('toggleTwoway'))  // This remote side has switched on 2-way communication. Now send message to the MyExoMy to also switch on 2-way communication.
         .then(() => twowayButton.style.background = 'green')
         .then(() => twowayButton.disabled = false);
       // ReneB: resize video to accomodate full duplex mode.
@@ -391,7 +366,7 @@ function toggleTwoway() {
     twoWayOn = false;
     console.log(`going to remove audio: ${audioTrackSender}`);
     pc.removeTrack(audioTrackSender);
-    if (location.hostname == 'localhost') {
+    if (isMyExoMy == true) {
       remoteVideo.srcObject = null;
       sendMessage('ready');
       ShowLocalVideoOnly();
@@ -408,6 +383,7 @@ function toggleTwoway() {
     twowayButton.disabled = false;;
   }
 }
+
 
 async function DisplayStats() {
   if (localStream != null && pc != null) {
@@ -443,6 +419,7 @@ async function DisplayStats() {
   }
 }
 
+
 function ShowLocalVideoOnly() {
   remoteVideo.style.display = 'none';
   stats.style.display = 'none';
@@ -451,6 +428,7 @@ function ShowLocalVideoOnly() {
   localVideo.style.left = '15%';
   localVideo.style.width = '70%';
 }
+
 
 function ShowRemoteAndLocalVideo() {
   remoteVideo.style.display = 'inline-block';
