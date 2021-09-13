@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-09-13 23:12:20",
+  "updated_at": "2021-09-13 23:06:17",
   "stick": "",
   "documents": [
     {
@@ -461,7 +461,7 @@
           }
         ],
         [
-          "Omron G5Q-1A-EU",
+          "Omron G6B-1114P-US",
           1,
           "OMRON G6B-1114P-US-FOOTPRINT",
           "U4",
@@ -501,11 +501,11 @@
           }
         ]
       ],
-      "updateTime": 1631567266,
+      "updateTime": 1631567139,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-09-13 23:07:46"
+      "updated_at": "2021-09-13 23:05:39"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -517,7 +517,6 @@
       "master": "",
       "thumb": "/images/thumb-default.png",
       "components": {
-        "179a1c8f558441ec87c5909a271efa08": 1,
         "6924b36489de4921bb29ca14bf27c33f": 4,
         "2f1d96128ab94db491eae99d61bfb39c": 1,
         "3744bcbe1f464b01ae180f32d7d4b0c4": 1,
@@ -531,14 +530,15 @@
         "4e0bf0f9b7aa4d0080bcb97d21abada5": 1,
         "a4ca010af9624cec8388569e4d5538a0": 1,
         "ee75d565d98543bdb55a4484e2b5f9d7": 1,
-        "fb8b10620b5a459d9b03fd14987346f4": 1
+        "fb8b10620b5a459d9b03fd14987346f4": 1,
+        "179a1c8f558441ec87c5909a271efa08": 1
       },
       "BOM": [],
-      "updateTime": 1631567540,
+      "updateTime": 1631567177,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-09-13 23:12:20"
+      "updated_at": "2021-09-13 23:06:17"
     }
   ],
   "sort": [
@@ -547,5 +547,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1631567266851
+  "schfilemtime": 1631567139536
 }
