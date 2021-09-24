@@ -3,10 +3,12 @@ import smbus
 import rospy
 
 # Global variables
-# globI2cDelay is the minimum time needed between two I2C commands to give the Atmega328P time to handle the commands.
+# ReneB: I2C address of Atmega328P.
+slaveAddressAtmega328P = 0x04
+# i2cDelay is the minimum time needed between two I2C commands to give the Atmega328P time to handle the commands.
 # The Atmega328P does not buffer the I2C commands. If the Raspberry issues an I2C command too fast for the Atmega328P,
 # it will overwrite the previous command on the Atmega328P.
-globI2cDelay = 0.1
+i2cDelay = 0.1
 
 def get_smbus():
     try:

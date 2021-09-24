@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import time
 import rospy
+import i2c
 
 from exomy.msg import MotorCommands
 from motors import Motors
@@ -30,6 +31,7 @@ def shutdown():
 def watchdog(event):
     rospy.loginfo("Watchdog fired. Stopping driving motors.")
     motors.stopMotors()
+    i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 10)  # Send motion command to Arduino to prevent putting MyExoMy to sleep.
 
 
 if __name__ == "__main__":

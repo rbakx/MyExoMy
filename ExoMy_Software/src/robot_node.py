@@ -10,8 +10,6 @@ from subprocess import call
 import own_util
 
 # Global variables.
-# ReneB: I2C address of Atmega328P.
-slaveAddressAtmega328P = 0x04
 global exomy
 exomy = Rover()
 
@@ -35,14 +33,14 @@ def joy_callback(message):
 # ReneB: callback to handle all own button events from the webpage.
 def own_button_callback(message):
     if message.data == "lights_on":
-      i2c.write_byte(slaveAddressAtmega328P, 0, 1)  # Turn lights on
+      i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 1)  # Turn lights on
     elif message.data == "lights_off":
-      i2c.write_byte(slaveAddressAtmega328P, 0, 2)  # Turn lights off
+      i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 2)  # Turn lights off
     elif message.data == "goto_sleep":
-        i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(slaveAddressAtmega328P, 0, 255)  # 255 means goto sleep.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 255)  # 255 means goto sleep.
         rospy.sleep(0.1) # Give Atmega328P time to process.
-        acknowledge = i2c.read_byte(slaveAddressAtmega328P, 0)
+        acknowledge = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         if acknowledge == 42: # 42 means acknowledge
           # ReneB: If we get here it means that the ATmega328P acknowledged going to sleep after a short waiting period.
           # After this short period the ATmega328P will switch off the power for the Raspberry Pi. During this period we shutdown the Raspberry Pi in a proper way.
@@ -78,17 +76,17 @@ if __name__ == '__main__':
     # ReneB: Create while loop with sleep to publish the status every second.
     while not rospy.is_shutdown():
         # Read battery status from Atmega328P
-        i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(slaveAddressAtmega328P, 0, 128)  # 128 means read battery status.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 128)  # 128 means read battery status.
         rospy.sleep(0.1) # Give Atmega328P time to process.
-        battery_voltage = i2c.read_byte(slaveAddressAtmega328P, 0)
+        battery_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         battery_voltage = battery_voltage * 7.8 * 1.1 / 256
         battery_status_pub.publish("{:.2f}".format(battery_voltage) + " V")
 
-        i2c.write_byte(slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(slaveAddressAtmega328P, 0, 129)  # 129 means read solar panel status.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 129)  # 129 means read solar panel status.
         rospy.sleep(0.1) # Give Atmega328P time to process.
-        solarpanel_voltage = i2c.read_byte(slaveAddressAtmega328P, 0)
+        solarpanel_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         solarpanel_voltage = solarpanel_voltage * 21.5 * 1.1 / 256
         # ReneB: To calculate the solar panel charging current we first calculate the voltage over the 10 ohm resistor as being
         # solarpanel_voltage - battery_voltage minus the voltage over the transistor (TIP32C) and diode (1N4002).
