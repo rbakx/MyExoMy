@@ -1,5 +1,5 @@
 /*
-   Program for MyExomy power board.
+   Program for MyExoMy power board.
    Meant for Atmega328_on_breadboard_8MHz.
 */
 #include <Arduino.h>
@@ -23,7 +23,7 @@ const int BatteryThresholdBlue = 620;  // With resistors 68K and 10K this corres
 // LDR thresholds. Lower and higher threshold to have hysteresis.
 const int LdrThresholdHigher = 800;                        // Higher value means it must be darker to switch on the LEDs.
 const int LdrThresholdLower = 600;                         // Lower value means it must be lighter to switch back off the LEDs.
-const unsigned long MotionCheckIntervalMillis = 10000 / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
+const unsigned long MotionCheckIntervalMillis = 120000 / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
 volatile bool motion = false;
 
 int i2cCommand = 0;        // global variable for receiving command from I2C
@@ -118,7 +118,7 @@ void goToSleep()
 void setup()
 {
   Serial.begin(2 * 9600); // We need 9600 baud, but because we use the internal clock of 8 MHz we have to set it to 2x9600.
-  Serial.println("Hello MyExomy!");
+  Serial.println("Hello MyExoMy!");
   setAllPinsToInput(); // This does not seem to save additional power ( > 1 μA).
   disableAc();         // This does not seem to save additional power ( > 1 μA).
   wdt_disable();       // This does not seem to save additional power ( > 1 μA).
@@ -183,20 +183,23 @@ void loop()
     previousMillis = millis();
     motion = false;
   }
-  //else if (millis() - previousMillis >= MotionCheckIntervalMillis)
-  else if (false) // Disable automatic sleep mode for now.
+  else if (millis() - previousMillis >= MotionCheckIntervalMillis)
   {
     goToSleep();
   }
 
   switch (i2cCommand)
   {
-  case 1: // light on
+  case 1: // Light on.
     digitalWrite(HeadlightPin, HIGH);
     i2cCommand = 0;
     break;
-  case 2: // light off
+  case 2: // Light off.
     digitalWrite(HeadlightPin, LOW);
+    i2cCommand = 0;
+    break;
+  case 10: // Indicate that there is motion, to keep the MyExoMy awake.
+    motion = true;
     i2cCommand = 0;
     break;
   case 100: // Command to indicate a read is going to follow.
