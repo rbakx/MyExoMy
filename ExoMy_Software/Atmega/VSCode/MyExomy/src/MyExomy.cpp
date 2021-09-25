@@ -15,16 +15,20 @@ const int SolarPin = A2;
 const int InterruptPin = 2;            // PD2
 const int HeadlightPin = 8;            // PB0
 const int RelaisPin = 9;               // PB1
+const int DisableSleepPin = 10;        // PB2, to disable sleep mode for testing purposes.
 const int RGBBluePin = 5;              // PD5
 const int RGBGreenPin = 6;             // PD6
 const int RGBRedPin = 7;               // PD7
 const int BatteryThresholdGreen = 680; // With resistors 68K and 10K this corresponds to 5.7V (analog reference is internal 1.1V).
 const int BatteryThresholdBlue = 620;  // With resistors 68K and 10K this corresponds to 5.2V (analog reference is internal 1.1V).
 // LDR thresholds. Lower and higher threshold to have hysteresis.
-const int LdrThresholdHigher = 800;                        // Higher value means it must be darker to switch on the LEDs.
-const int LdrThresholdLower = 600;                         // Lower value means it must be lighter to switch back off the LEDs.
-const unsigned long MotionCheckIntervalMillis = 120000 / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
+const int LdrThresholdHigher = 800;                           // Higher value means it must be darker to switch on the LEDs.
+const int LdrThresholdLower = 600;                            // Lower value means it must be lighter to switch back off the LEDs.
+const unsigned long MotionCheckIntervalMillis = 120000UL / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
+const unsigned long SleepRequestedDelayMillis = 30000UL / 2;  // Delay before actually going to sleep to give Raspberry Pi time to properly shut down.
+unsigned long sleepRequestStartTime = 0UL / 2;                // Actual time in millis of sleep request.
 volatile bool motion = false;
+volatile bool sleepRequested = false;
 
 int i2cCommand = 0;        // global variable for receiving command from I2C
 int i2cParameters[10];     // global array for receiving parameters from I2C
@@ -95,23 +99,24 @@ void disableAc()
 void wakeup()
 {
   motion = true;
+  sleepRequested = false;
 }
 
 void goToSleep()
 {
   Serial.println("going to sleep!");
-  delay(100); // Small delay to make sure the println is finished.
+  delay(100);                   // Small delay to make sure the println is finished.
   digitalWrite(RelaisPin, LOW); // Switch off RPi and servo power.
   digitalWrite(HeadlightPin, LOW);
   digitalWrite(RGBGreenPin, LOW);
   digitalWrite(RGBBluePin, LOW);
   digitalWrite(RGBRedPin, LOW);
-  disableAdc();        // This will save appr. 260 μA.
-  power_all_disable(); // This does not seem to save additional power.
-  sleep_bod_disable(); // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
-  sleep_cpu();         // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
-  power_all_enable();  // We will need this for the delay function (timer 0).
-  enableAdc();         // We need this for the LDR measurement
+  disableAdc();                  // This will save appr. 260 μA.
+  power_all_disable();           // This does not seem to save additional power.
+  sleep_bod_disable();           // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
+  sleep_cpu();                   // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
+  power_all_enable();            // We will need this for the delay function (timer 0).
+  enableAdc();                   // We need this for the LDR measurement
   digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
 }
 
@@ -123,6 +128,7 @@ void setup()
   disableAc();         // This does not seem to save additional power ( > 1 μA).
   wdt_disable();       // This does not seem to save additional power ( > 1 μA).
   pinMode(InterruptPin, INPUT_PULLUP);
+  pinMode(DisableSleepPin, INPUT_PULLUP);
   pinMode(RelaisPin, OUTPUT);
   pinMode(HeadlightPin, OUTPUT);
   pinMode(RGBBluePin, OUTPUT);
@@ -137,13 +143,18 @@ void setup()
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
   digitalWrite(HeadlightPin, LOW); // Be sure to start with Headlights off.
-  digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
+  digitalWrite(RelaisPin, HIGH);   // Switch on RPi and servo power.
 }
 
 void loop()
 {
   static unsigned long previousMillis = 0;
-  analogReference(INTERNAL);     // Analog reference to internal 1.1V (for ATmega328P). Used for measuring battery voltage, so reference must be independent of the supply voltage.
+  bool disableSleep = false;
+  if (digitalRead(DisableSleepPin) == LOW)
+  {
+    disableSleep = true;
+  }
+  analogReference(INTERNAL); // Analog reference to internal 1.1V (for ATmega328P). Used for measuring battery voltage, so reference must be independent of the supply voltage.
   int batteryVal = analogRead(BatteryPin);
   int solarVal = analogRead(SolarPin);
   analogReference(DEFAULT); // Analog reference to 5V. Used for measuring LDR voltage which is relative to the 5V supply.
@@ -177,6 +188,27 @@ void loop()
     //digitalWrite(HeadlightPin, LOW);
   }
 
+  // Check if there is a sleep request.
+  // If there is, put the MyExomy into sleep after a delay.
+  // The delay is to enable the Raspberry Pi to properly shut down.
+  if (disableSleep == false)
+  {
+    if (sleepRequested == false)
+    {
+      // If there is no sleep request, we set the sleepRequestStartTime back to 0.
+      // This enables cancelling the sleep request through the web interface.
+      sleepRequestStartTime = 0UL;
+    }
+    else if (sleepRequestStartTime == 0UL)
+    {
+      sleepRequestStartTime = millis();
+    }
+    else if (millis() - sleepRequestStartTime >= SleepRequestedDelayMillis)
+    {
+      goToSleep();
+    }
+  }
+
   //Serial.println("millis: " + String(millis()) + " motion: " + String(motion));
   if (motion)
   {
@@ -185,7 +217,7 @@ void loop()
   }
   else if (millis() - previousMillis >= MotionCheckIntervalMillis)
   {
-    goToSleep();
+    sleepRequested = true;
   }
 
   switch (i2cCommand)
@@ -202,25 +234,26 @@ void loop()
     motion = true;
     i2cCommand = 0;
     break;
+  case 42: // Sleep command.
+    sleepRequested = true;
+    i2cCommand = 0;
+    break;
   case 100: // Command to indicate a read is going to follow.
     if (i2cParameterCount == 1)
     {
-      if (i2cParameters[0] == 128)          // 128: read battery voltage.
+      if (i2cParameters[0] == 128) // 128: read battery voltage.
       {
         i2cDataByteToSend = batteryVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
       }
-      else if (i2cParameters[0] == 129)     // 129: read solar panel voltage.
+      else if (i2cParameters[0] == 129) // 129: read solar panel voltage.
       {
-        i2cDataByteToSend = solarVal / 4;   // Map level [0..1023] to [0..255] so it fits in one byte.
+        i2cDataByteToSend = solarVal / 4; // Map level [0..1023] to [0..255] so it fits in one byte.
       }
-      else if (i2cParameters[0] == 255)     // 255: go to sleep.
+      else if (i2cParameters[0] == 255) // 255: read hardware status.
       {
-        i2cDataByteToSend = 42;             // Send a magic number as acknowledge.
-        // Delay to make sure acknowledge is sent back over I2C and Raspberry Pi is properly shut down.
-        // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
-        delay(30000UL / 2);
-        goToSleep();
+        i2cDataByteToSend = ((!disableSleep && sleepRequested) == true) ? 42 : 0;
       }
+
       i2cCommand = 0;
     }
     break;

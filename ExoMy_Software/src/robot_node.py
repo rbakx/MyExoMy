@@ -37,16 +37,10 @@ def own_button_callback(message):
     elif message.data == "lights_off":
       i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 2)  # Turn lights off
     elif message.data == "goto_sleep":
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 255)  # 255 means goto sleep.
-        rospy.sleep(0.1) # Give Atmega328P time to process.
-        acknowledge = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
-        if acknowledge == 42: # 42 means acknowledge
-          # ReneB: If we get here it means that the ATmega328P acknowledged going to sleep after a short waiting period.
-          # After this short period the ATmega328P will switch off the power for the Raspberry Pi. During this period we shutdown the Raspberry Pi in a proper way.
-          sleep_status_pub.publish("SLEEP ACTIVATED")
-          rospy.sleep(3) # Give Web page time to update.
-          own_util.HostShutdown()
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 42)  # Send sleep command
+        # After sending the sleep command to the Atmega328P, the Atmega328P will send back '42' as hardware status indicating it will put the MyExoMy to sleep after a delay.
+        # This hardware status is read below so the Raspberry Pi can properly shut down.
+
 
 if __name__ == '__main__':
     rospy.init_node('robot_node')
@@ -75,17 +69,32 @@ if __name__ == '__main__':
     
     # ReneB: Create while loop with sleep to publish the status every second.
     while not rospy.is_shutdown():
+        # Read hardware status from Atmega328P
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 255)  # 255 means read hardware status.
+        rospy.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
+        hardware_status = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
+        # A hardware status of 42 means that the Atmega328P received a request to put the MyExoMy to sleep after a delay.
+        # This sleep request can come from the Web Interface (RaspBerry Pi) and also from the Atmega328P itself when there is no motion (activity) detected for a certain period of time.
+        if hardware_status == 42:
+          # ReneB: If we get here it means that the ATmega328P is going to put the MyExoMy to sleep after a short waiting period.
+          # After this short period the ATmega328P will switch off the power to the Raspberry Pi. During this period we shutdown the Raspberry Pi in a proper way.
+          sleep_status_pub.publish("SLEEP ACTIVATED")
+          rospy.sleep(3) # Give Web page time to update.
+          own_util.HostShutdown()
+
         # Read battery status from Atmega328P
         i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
         i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 128)  # 128 means read battery status.
-        rospy.sleep(0.1) # Give Atmega328P time to process.
+        rospy.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
         battery_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         battery_voltage = battery_voltage * 7.8 * 1.1 / 256
         battery_status_pub.publish("{:.2f}".format(battery_voltage) + " V")
 
+        # Read solar panel status from Atmega328P
         i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
         i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 129)  # 129 means read solar panel status.
-        rospy.sleep(0.1) # Give Atmega328P time to process.
+        rospy.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
         solarpanel_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         solarpanel_voltage = solarpanel_voltage * 21.5 * 1.1 / 256
         # ReneB: To calculate the solar panel charging current we first calculate the voltage over the 10 ohm resistor as being

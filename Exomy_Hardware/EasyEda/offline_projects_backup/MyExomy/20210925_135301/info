@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-09-25 14:12:27",
+  "updated_at": "2021-09-25 13:53:01",
   "stick": "",
   "documents": [
     {
@@ -12,7 +12,7 @@
       "title": "Circuit_Power",
       "description": "",
       "docType": "1",
-      "master": "",
+      "master": "197cc1cb5d8595e31aca10de35a5350c",
       "thumb": "/images/thumb-default.png",
       "components": {
         "70c2ab06c08d4b8d8ff8ec184eceebb0": 2,
@@ -400,7 +400,7 @@
           "Sleep disable",
           1,
           "H2-5.0-10.5X8.0MM",
-          "SLEEPDISABLE",
+          "RPISWITCH",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -501,11 +501,11 @@
           }
         ]
       ],
-      "updateTime": 1632571715,
+      "updateTime": 1632570781,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-09-25 14:08:35"
+      "updated_at": "2021-09-25 13:53:01"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -517,12 +517,12 @@
       "master": "",
       "thumb": "/images/thumb-default.png",
       "components": {
-        "e8260323ff984d118782bc3786c51e77": 15,
         "179a1c8f558441ec87c5909a271efa08": 1,
         "6924b36489de4921bb29ca14bf27c33f": 4,
         "2f1d96128ab94db491eae99d61bfb39c": 1,
         "3744bcbe1f464b01ae180f32d7d4b0c4": 1,
         "a6f62f03d0f7481fa82dfaa4df1b1955": 14,
+        "e8260323ff984d118782bc3786c51e77": 15,
         "6a70b28b15f943919bf7a1a19c011afb": 2,
         "7e965212c9904ae296c36cc77572a3e0": 2,
         "febeab670b1b4d8b9bc81df7b04d486e": 2,
@@ -534,11 +534,11 @@
         "fb8b10620b5a459d9b03fd14987346f4": 1
       },
       "BOM": [],
-      "updateTime": 1632571947,
+      "updateTime": 1631567540,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-09-25 14:12:27"
+      "updated_at": "2021-09-13 23:12:20"
     }
   ],
   "sort": [
@@ -547,5 +547,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1632571715550
+  "schfilemtime": 1632570781815
 }

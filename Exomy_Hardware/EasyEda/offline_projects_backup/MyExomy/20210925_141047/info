@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-09-25 14:12:27",
+  "updated_at": "2021-09-25 14:10:47",
   "stick": "",
   "documents": [
     {
@@ -534,11 +534,11 @@
         "fb8b10620b5a459d9b03fd14987346f4": 1
       },
       "BOM": [],
-      "updateTime": 1632571947,
+      "updateTime": 1632571847,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-09-25 14:12:27"
+      "updated_at": "2021-09-25 14:10:47"
     }
   ],
   "sort": [

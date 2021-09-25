@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2021-09-25 14:12:27",
+  "updated_at": "2021-09-25 14:02:59",
   "stick": "",
   "documents": [
     {
@@ -400,7 +400,7 @@
           "Sleep disable",
           1,
           "H2-5.0-10.5X8.0MM",
-          "SLEEPDISABLE",
+          "RPISWITCH",
           {
             "BOM_Manufacturer Part": "?",
             "puuid": "e8260323ff984d118782bc3786c51e77",
@@ -501,11 +501,11 @@
           }
         ]
       ],
-      "updateTime": 1632571715,
+      "updateTime": 1632570781,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2021-09-25 14:08:35"
+      "updated_at": "2021-09-25 13:53:01"
     },
     {
       "uuid": "e78d8e438bdabcb18874da702dcfc94e",
@@ -534,11 +534,11 @@
         "fb8b10620b5a459d9b03fd14987346f4": 1
       },
       "BOM": [],
-      "updateTime": 1632571947,
+      "updateTime": 1632571379,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2021-09-25 14:12:27"
+      "updated_at": "2021-09-25 14:02:59"
     }
   ],
   "sort": [
@@ -547,5 +547,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1632571715550
+  "schfilemtime": 1632570781815
 }
