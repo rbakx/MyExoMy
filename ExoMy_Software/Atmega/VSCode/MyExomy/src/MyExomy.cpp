@@ -112,12 +112,14 @@ void goToSleep()
   digitalWrite(RGBBluePin, LOW);
   digitalWrite(RGBRedPin, LOW);
   disableAdc();                  // This will save appr. 260 μA.
+  Wire.end();                    // Needed when SDA and SCL are connected to RPi. This will save appr. 250 μA.
   power_all_disable();           // This does not seem to save additional power.
   sleep_bod_disable();           // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
   sleep_cpu();                   // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
   power_all_enable();            // We will need this for the delay function (timer 0).
   enableAdc();                   // We need this for the LDR measurement
   digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
+  Wire.begin(SLAVE_ADDRESS);
 }
 
 void setup()
@@ -127,7 +129,7 @@ void setup()
   setAllPinsToInput(); // This does not seem to save additional power ( > 1 μA).
   disableAc();         // This does not seem to save additional power ( > 1 μA).
   wdt_disable();       // This does not seem to save additional power ( > 1 μA).
-  pinMode(InterruptPin, INPUT_PULLUP);
+  pinMode(InterruptPin, INPUT); // No pullup as the wakeup receiver RC-WuTRx-433 output connected to this pin is push-pull.
   pinMode(DisableSleepPin, INPUT_PULLUP);
   pinMode(RelaisPin, OUTPUT);
   pinMode(HeadlightPin, OUTPUT);
