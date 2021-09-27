@@ -126,10 +126,22 @@ void setup()
 {
   Serial.begin(2 * 9600); // We need 9600 baud, but because we use the internal clock of 8 MHz we have to set it to 2x9600.
   Serial.println("Hello MyExoMy!");
-  setAllPinsToInput(); // This does not seem to save additional power ( > 1 μA).
-  disableAc();         // This does not seem to save additional power ( > 1 μA).
-  wdt_disable();       // This does not seem to save additional power ( > 1 μA).
-  pinMode(InterruptPin, INPUT); // No pullup as the wakeup receiver RC-WuTRx-433 output connected to this pin is push-pull.
+  setAllPinsToInput();          // This does not seem to save additional power ( > 1 μA).
+  disableAc();                  // This does not seem to save additional power ( > 1 μA).
+  wdt_disable();                // This does not seem to save additional power ( > 1 μA).
+
+  // Make sure pull-up resistor connected to InterruptPin is disabled.
+  // This because the wakeup receiver RC-WuTRx-433 output connected to this pin is push-pull.
+  // Having the pull-up resistor enabled and the wakeup receiver RC-WuTRx-433 output at LOW will result in additional current in sleep mode which we do not want,
+  pinMode(InterruptPin, INPUT);
+  digitalWrite(InterruptPin, LOW);
+
+  // Make sure pull-up resistors connected to SDA and SDL are disabled.
+  pinMode(SDA, INPUT);
+  pinMode(SCL, INPUT);
+  digitalWrite(SDA, LOW);
+  digitalWrite(SCL, LOW);
+
   pinMode(DisableSleepPin, INPUT_PULLUP);
   pinMode(RelaisPin, OUTPUT);
   pinMode(HeadlightPin, OUTPUT);
