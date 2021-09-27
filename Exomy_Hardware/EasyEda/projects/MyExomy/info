@@ -12,7 +12,7 @@
       "title": "Circuit_Power",
       "description": "",
       "docType": "1",
-      "master": "b0d7992cdef948adbdb6bb1e682f943f",
+      "master": "",
       "thumb": "/images/thumb-default.png",
       "components": {
         "70c2ab06c08d4b8d8ff8ec184eceebb0": 2,

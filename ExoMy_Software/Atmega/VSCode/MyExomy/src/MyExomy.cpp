@@ -112,35 +112,27 @@ void goToSleep()
   digitalWrite(RGBBluePin, LOW);
   digitalWrite(RGBRedPin, LOW);
   disableAdc();                  // This will save appr. 260 μA.
-  Wire.end();                    // Needed when SDA and SCL are connected to RPi. This will save appr. 250 μA.
   power_all_disable();           // This does not seem to save additional power.
   sleep_bod_disable();           // BODS (Brown Out Detection Sleep) is active only 3 clock cycles, so sleep_cpu() must follow immediately. This will save appr. 20 μA.
   sleep_cpu();                   // Power down! Power drops from appr. 8 mA to appr. 0.1 μA.
   power_all_enable();            // We will need this for the delay function (timer 0).
   enableAdc();                   // We need this for the LDR measurement
   digitalWrite(RelaisPin, HIGH); // Switch on RPi and servo power.
-  Wire.begin(SLAVE_ADDRESS);
 }
 
 void setup()
 {
   Serial.begin(2 * 9600); // We need 9600 baud, but because we use the internal clock of 8 MHz we have to set it to 2x9600.
   Serial.println("Hello MyExoMy!");
-  setAllPinsToInput();          // This does not seem to save additional power ( > 1 μA).
-  disableAc();                  // This does not seem to save additional power ( > 1 μA).
-  wdt_disable();                // This does not seem to save additional power ( > 1 μA).
+  setAllPinsToInput(); // This does not seem to save additional power ( > 1 μA).
+  disableAc();         // This does not seem to save additional power ( > 1 μA).
+  wdt_disable();       // This does not seem to save additional power ( > 1 μA).
 
   // Make sure pull-up resistor connected to InterruptPin is disabled.
   // This because the wakeup receiver RC-WuTRx-433 output connected to this pin is push-pull.
   // Having the pull-up resistor enabled and the wakeup receiver RC-WuTRx-433 output at LOW will result in additional current in sleep mode which we do not want,
   pinMode(InterruptPin, INPUT);
   digitalWrite(InterruptPin, LOW);
-
-  // Make sure pull-up resistors connected to SDA and SDL are disabled.
-  pinMode(SDA, INPUT);
-  pinMode(SCL, INPUT);
-  digitalWrite(SDA, LOW);
-  digitalWrite(SCL, LOW);
 
   pinMode(DisableSleepPin, INPUT_PULLUP);
   pinMode(RelaisPin, OUTPUT);
@@ -153,6 +145,14 @@ void setup()
   sleep_enable();
   // initialize i2c as slave
   Wire.begin(SLAVE_ADDRESS);
+  // Wire.begin will by default enable the internal pull-up resistors on the SDA and SCL lines, see twi.c.
+  // Because the ATmega328P (5V) is connected to the Raspberry Pi (3.3V) we want to operate at 3.3V to prevent damage to the Raspberry Pi.
+  // Therefore we disable the internal pull-up resistors of the ATmega328P and enable the internal pull-up resistors of the RPi.
+  // In addition it will prevent current flowing through the internal pull-up resistors of the ATmega328P when in sleep mode.
+  pinMode(SDA, INPUT);
+  pinMode(SCL, INPUT);
+  digitalWrite(SDA, LOW);
+  digitalWrite(SCL, LOW);
   // define callbacks for i2c communication
   Wire.onReceive(receiveData);
   Wire.onRequest(sendData);
