@@ -15,6 +15,7 @@ const char *SSID = "wifiwifiwifi_guest";
 const char *PASSWORD = "qwertyui";
 const int PORTNUMBER = 55554;
 const int WAKEUP_PIN = 2;
+const int CONNECTION_STATUS = 4;
 
 // The ESP32 server version 1.0.0 at https://github.com/fhessel/esp32_https_server/ does not seem to be able a SSL (https) connection robustly.
 // It is very slow, crashes regurarly and seems to hang on the /off node.
@@ -64,6 +65,7 @@ void setup()
   Serial.begin(115200);
   Serial.println("Starting Wakeup Transmitter");
   pinMode(WAKEUP_PIN, OUTPUT);
+  pinMode(CONNECTION_STATUS, OUTPUT);
 
   Serial.println("Initializing SPIFF...");
   // Initialize SPIFFS
@@ -121,8 +123,18 @@ void setup()
 
 void loop()
 {
+  static int delayCount = 0;
+  static int connectionStatusLed = LOW;
 
   myServer->loop();
 
+  if (delayCount >= 100 && WiFi.status() == WL_CONNECTED)
+  {
+    connectionStatusLed = connectionStatusLed == LOW ? HIGH : LOW;
+    digitalWrite(CONNECTION_STATUS, connectionStatusLed);
+    delayCount = 0;
+  }
+
+  delayCount++;
   delay(10);
 }
