@@ -1,0 +1,113 @@
+{
+  "uuid": "89d76049fd14eb8d64112ae9981d1207",
+  "path": "Offline/Wakeup_Transmitter",
+  "name": "Wakeup_Transmitter",
+  "content": "",
+  "created_at": "2021-10-10 08:56:44",
+  "updated_at": "2021-10-10 08:58:51",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "9b30dde3ce58a170c152a40c5b47ea82",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "6ab149c41d3f88d6bcee26b34f802c98",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "8e327f5d57db4b029bb7be61deb35ef7": 1,
+        "bb009484ef804a24ac5d18c54b249586": 2,
+        "fe5e817d34444130812a7411e7ddd4f6": 1,
+        "5cbe824183374fac8e4c1ae848199ce3": 1,
+        "d06b7aaeb81140b3821056de66b84d80": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "LED GREEN",
+          1,
+          "LED-GREEN-D4",
+          "1",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "1d213fdf65944a0fa44ec0e8e0cc691f",
+            "uuid": "fe5e817d34444130812a7411e7ddd4f6"
+          }
+        ],
+        [
+          "LED RED",
+          1,
+          "LED0603_RED",
+          "LED1",
+          {
+            "BOM_Manufacturer": "EVERLIGHT(台湾亿光)",
+            "BOM_Manufacturer Part": "19-217/R6C-AL1M2VY/3T",
+            "BOM_Supplier Part": "C72044",
+            "BOM_Supplier": "LCSC",
+            "puuid": "1efb3a885b5b4aecb6d41221a8f4d86b",
+            "uuid": "5cbe824183374fac8e4c1ae848199ce3"
+          }
+        ],
+        [
+          "150",
+          2,
+          "R0603",
+          "R15,R16",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "398691f1f785460098bbe5ee6590333c",
+            "uuid": "bb009484ef804a24ac5d18c54b249586"
+          }
+        ],
+        [
+          "ESP-WROOM-32",
+          1,
+          "ESP32 DEVELOPMENT BOARD ABUOMAR",
+          "U5",
+          {
+            "BOM_Manufacturer Part": "ESP32 Development Board",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer": "HiLetgo",
+            "puuid": "471866f857ee4d0193b1bcce4e03981e",
+            "uuid": "d06b7aaeb81140b3821056de66b84d80"
+          }
+        ],
+        [
+          "RC-WuTRx-XXX",
+          1,
+          "RC-WUTRX-XXX",
+          "U7",
+          {
+            "BOM_Manufacturer": "Radio Controlli",
+            "BOM_Manufacturer Part": "RC-WuTRx-XXX",
+            "BOM_Supplier": "Radio Controlli",
+            "BOM_Supplier Part": "RC-WuTRx-XXX",
+            "puuid": "b3113bf0c7574ba4a67f2b0e92689c6e",
+            "uuid": "8e327f5d57db4b029bb7be61deb35ef7"
+          }
+        ]
+      ],
+      "updateTime": 1633849131,
+      "createTime": 1633849105,
+      "histories": [],
+      "created_at": "2021-10-10 08:58:25",
+      "updated_at": "2021-10-10 08:58:51"
+    }
+  ],
+  "sort": [],
+  "title": "Wakeup_Transmitter",
+  "foldername": "Wakeup_Transmitter",
+  "schfilename": "Wakeup_Transmitter.json",
+  "schfilemtime": 1633849131425
+}

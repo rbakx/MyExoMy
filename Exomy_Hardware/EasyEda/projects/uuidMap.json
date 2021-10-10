@@ -1,5 +1,7 @@
 {
-  "6abbbb2870ec7e50cf366454f26ef443": "MyExomy",
-  "42cdfd922080ef4b741b08e36c1ef085": "MyExomy\\MyExomy.json?Circuit_Power",
-  "e78d8e438bdabcb18874da702dcfc94e": "MyExomy\\PCB_MyExomy.json"
+  "30ece24fff026be7a6d1fb24235ff73b": "MyExomy",
+  "d7fa034f4fcef9ffdbb7a33a1a32a5d0": "MyExomy\\MyExomy.json?Circuit_Power",
+  "1c19e49a598b28adfe5bf476cd3a2e59": "MyExomy\\PCB_MyExomy.json",
+  "89d76049fd14eb8d64112ae9981d1207": "Wakeup_Transmitter",
+  "9b30dde3ce58a170c152a40c5b47ea82": "Wakeup_Transmitter\\Wakeup_Transmitter.json?Circuit"
 }
