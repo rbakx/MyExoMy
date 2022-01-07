@@ -64,7 +64,8 @@ fi
 # Run docker container
 docker run \
     -it \
-    -v ~/ExoMy_Software:/root/exomy_ws/src/exomy \
+    -v ~/ExoMy_Software/exomy:/root/exomy_ws/src/exomy \
+    -v ~/ExoMy_Software/exomy_msgs:/root/exomy_ws/src/exomy_msgs \
     -p 8000:8000 \
     -p 8080:8080 \
     -p 9090:9090 \
