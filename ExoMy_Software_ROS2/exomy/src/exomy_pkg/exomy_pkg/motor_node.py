@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.timer import Timer
-from exomy_msgs.msg import MotorCommands
+from messages_pkg.msg import MotorCommands
 from .motors import Motors
 
 class MotorNode(Node):
@@ -33,8 +33,8 @@ class MotorNode(Node):
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
 
-    def __del__(self):
-        self.motors.stopMotors()
+    #def __del__(self):
+        #self.motors.stopMotors()
 
     def init_params(self):
         """Initialize Parameters."""
