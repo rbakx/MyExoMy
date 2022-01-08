@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+}
+
+#remoteVideo {
+  width: 80%;
+}
+
+#localVideo {
+  width: 0%;
+}

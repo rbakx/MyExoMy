@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Realtime communication with WebRTC</title>
+
+  <link rel="stylesheet" href="/css/main.css" />
+
+</head>
+
+<body>
+
+  <div id="videos">
+    <video id="remoteVideo" autoplay playsinline></video>
+    <video id="localVideo" autoplay muted playsinline></video>
+  </div>
+
+  <div id="stats">
+    <p id="remoteVideoStats">Remote video dimensions: press Statistics</p>
+    <p id="localVideoStats">Local video dimensions: press Statistics</p>
+  </div>
+
+  <div id="buttons">
+    <button id="callButton">Call</button>
+    <button id="hangupButton">Hang Up</button>
+    <button id="twowayButton">2-way</button>
+    <button id="statsButton">Statistics</button>
+  </div>
+
+  <!-- This file is automatically added/served when running "node index.js". -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
