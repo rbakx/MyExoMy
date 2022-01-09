@@ -38,52 +38,54 @@ class MotorNode(Node):
 
     def init_params(self):
         """Initialize Parameters."""
+        # At the moment we have to define the parameters here, as reading and using them from the yaml file as suggested at
+        # https://roboticsbackend.com/rclpy-params-tutorial-get-set-ros2-params-with-python/ does not seem to work.
 
         # Pin numbers for motors on PWM board
-        self.declare_parameter('pin_drive_fl', 14)
+        self.declare_parameter('pin_drive_fl', 11)
         self.parameters['pin_drive_fl'] = self.get_parameter('pin_drive_fl').value
-        self.declare_parameter('pin_steer_fl', 12)
+        self.declare_parameter('pin_steer_fl', 14)
         self.parameters['pin_steer_fl'] = self.get_parameter('pin_steer_fl').value
         
-        self.declare_parameter('pin_drive_fr', 2)
+        self.declare_parameter('pin_drive_fr', 4)
         self.parameters['pin_drive_fr'] = self.get_parameter('pin_drive_fr').value
-        self.declare_parameter('pin_steer_fr', 0)
+        self.declare_parameter('pin_steer_fr', 1)
         self.parameters['pin_steer_fr'] = self.get_parameter('pin_steer_fr').value
 
-        self.declare_parameter('pin_drive_cl', 6)
+        self.declare_parameter('pin_drive_cl', 10)
         self.parameters['pin_drive_cl'] = self.get_parameter('pin_drive_cl').value
-        self.declare_parameter('pin_steer_cl', 7)
+        self.declare_parameter('pin_steer_cl', 15)
         self.parameters['pin_steer_cl'] = self.get_parameter('pin_steer_cl').value
 
-        self.declare_parameter('pin_drive_cr', 4)
+        self.declare_parameter('pin_drive_cr', 5)
         self.parameters['pin_drive_cr'] = self.get_parameter('pin_drive_cr').value
-        self.declare_parameter('pin_steer_cr', 5)
+        self.declare_parameter('pin_steer_cr', 0)
         self.parameters['pin_steer_cr'] = self.get_parameter('pin_steer_cr').value
 
-        self.declare_parameter('pin_drive_rl', 15)
+        self.declare_parameter('pin_drive_rl', 13)
         self.parameters['pin_drive_rl'] = self.get_parameter('pin_drive_rl').value
-        self.declare_parameter('pin_steer_rl', 13)
+        self.declare_parameter('pin_steer_rl', 12)
         self.parameters['pin_steer_rl'] = self.get_parameter('pin_steer_rl').value
 
-        self.declare_parameter('pin_drive_rr', 3)
+        self.declare_parameter('pin_drive_rr', 2)
         self.parameters['pin_drive_rr'] = self.get_parameter('pin_drive_rr').value
-        self.declare_parameter('pin_steer_rr', 1)
+        self.declare_parameter('pin_steer_rr', 3)
         self.parameters['pin_steer_rr'] = self.get_parameter('pin_steer_rr').value
 
         ## PWM values
         # Those values highly depend on the motors and pwm board used
         # Check out the wiki for further explanation
-        self.declare_parameter('steer_pwm_neutral_fl', 300)
+        self.declare_parameter('steer_pwm_neutral_fl', 280)
         self.parameters['steer_pwm_neutral_fl'] = self.get_parameter('steer_pwm_neutral_fl').value
-        self.declare_parameter('steer_pwm_neutral_fr', 300)
+        self.declare_parameter('steer_pwm_neutral_fr', 275)
         self.parameters['steer_pwm_neutral_fr'] = self.get_parameter('steer_pwm_neutral_fr').value
-        self.declare_parameter('steer_pwm_neutral_cl', 300)
+        self.declare_parameter('steer_pwm_neutral_cl', 275)
         self.parameters['steer_pwm_neutral_cl'] = self.get_parameter('steer_pwm_neutral_cl').value
-        self.declare_parameter('steer_pwm_neutral_cr', 300)
+        self.declare_parameter('steer_pwm_neutral_cr', 265)
         self.parameters['steer_pwm_neutral_cr'] = self.get_parameter('steer_pwm_neutral_cr').value
-        self.declare_parameter('steer_pwm_neutral_rl', 300)
+        self.declare_parameter('steer_pwm_neutral_rl', 275)
         self.parameters['steer_pwm_neutral_rl'] = self.get_parameter('steer_pwm_neutral_rl').value
-        self.declare_parameter('steer_pwm_neutral_rr', 300)
+        self.declare_parameter('steer_pwm_neutral_rr', 270)
         self.parameters['steer_pwm_neutral_rr'] = self.get_parameter('steer_pwm_neutral_rr').value
 
         # PWW range around steering neutral position
