@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from exomy_msgs.msg import RoverCommand, MotorCommands
+from messages_pkg.msg import RoverCommand, MotorCommands
 import rclpy
 from rclpy.node import Node
 from .rover import Rover
@@ -12,13 +12,13 @@ class RobotNode(Node):
 
         self.joy_sub = self.create_subscription(
             RoverCommand,
-            'rover_command',
+            '/exomy_pkg/rover_command',
             self.joy_callback,
             10)
 
         self.robot_pub = self.create_publisher(
             MotorCommands,
-            'motor_commands',
+            '/exomy_pkg/motor_commands',
             1)
         self.robot = Rover()
 

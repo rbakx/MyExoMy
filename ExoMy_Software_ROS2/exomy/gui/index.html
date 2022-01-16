@@ -13,7 +13,7 @@
     var watchdog_handle;
 
     var ros = new ROSLIB.Ros({
-      url: 'ws://' + host_url + ':9090'
+      url: 'wss://' + host_url + ':9090'
     });
 
     // Initialize Axes and Buttons arrays
@@ -146,6 +146,7 @@
           <button class="button buttonX" onclick="button_clicked(0)">SPOT TURN</button>
           <button class="button buttonA" onclick="button_clicked(1)">ACKERMANN</button>
           <button class="button buttonStart" onclick="button_clicked(9)">MOTORS</button>
+          <div id="status" style="font-size: 24px; color:blue;"></div>
         </div>
       </div>
     </div>

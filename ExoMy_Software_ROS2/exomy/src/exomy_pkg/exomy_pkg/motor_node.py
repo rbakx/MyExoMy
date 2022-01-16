@@ -20,7 +20,7 @@ class MotorNode(Node):
         # Create Subscription
         self.subscription = self.create_subscription(
             MotorCommands,
-            'motor_commands',
+            '/exomy_pkg/motor_commands',
             self.callback,
             10)
         self.subscription  # prevent unused variable warning
@@ -33,8 +33,8 @@ class MotorNode(Node):
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
 
-    #def __del__(self):
-        #self.motors.stopMotors()
+    def __del__(self):
+        self.motors.stopMotors()
 
     def init_params(self):
         """Initialize Parameters."""

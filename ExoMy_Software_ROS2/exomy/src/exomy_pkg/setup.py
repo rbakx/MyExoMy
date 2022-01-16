@@ -24,6 +24,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'gamepad_parser_node = exomy_pkg.gamepad_parser_node:main',
+            'robot_node = exomy_pkg.robot_node:main',
             'motor_node = exomy_pkg.motor_node:main'
         ],
     },

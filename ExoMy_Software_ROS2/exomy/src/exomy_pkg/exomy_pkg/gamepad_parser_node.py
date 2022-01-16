@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Joy
-from exomy_msgs.msg import RoverCommand
+from messages_pkg.msg import RoverCommand
 from .locomotion_modes import LocomotionMode
 import math
 
@@ -15,13 +15,13 @@ class GamepadParserNode(Node):
 
         self.sub = self.create_subscription(
             Joy,
-            'joy',
+            '/joy',
             self.callback,
             10)
 
         self.pub = self.create_publisher(
             RoverCommand,
-            'rover_command',
+            '/exomy_pkg/rover_command',
             1)
 
         self.locomotion_mode = LocomotionMode.ACKERMANN.value
