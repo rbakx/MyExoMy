@@ -24,7 +24,7 @@ const int BatteryThresholdBlue = 620;  // With resistors 68K and 10K this corres
 // LDR thresholds. Lower and higher threshold to have hysteresis.
 const int LdrThresholdHigher = 800;                           // Higher value means it must be darker to switch on the LEDs.
 const int LdrThresholdLower = 600;                            // Lower value means it must be lighter to switch back off the LEDs.
-const unsigned long MotionCheckIntervalMillis = 120000UL / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
+const unsigned long MotionCheckIntervalMillis = 300000UL / 2; // Because we use the internal clock of 8 MHz we have to divide the desired interval by two.
 const unsigned long SleepRequestedDelayMillis = 30000UL / 2;  // Delay before actually going to sleep to give Raspberry Pi time to properly shut down.
 unsigned long sleepRequestStartTime = 0UL / 2;                // Actual time in millis of sleep request.
 volatile bool motion = false;
