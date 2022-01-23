@@ -12,7 +12,7 @@ body {
 
 .wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr; 
     width: 100vw;
     height: 100vh;
@@ -47,9 +47,6 @@ body {
 .buttonStart{
     background-color: red;
     grid-row: 4;
-    width: 50%;
-    font-size: 12px;
-
 }
 
 .button_container {
@@ -62,13 +59,13 @@ body {
 }
 .image_container {
     position: absolute;
-    top: 20%;
-    height: 80%;
-    width: 80%;
+    top: 0%;
+    height: 100%;
+    width: 120%;
 }
 .joy_container {
-    height: 100%;
-    width: 100%;
+    height: 50%;
+    width: 80%;
 }
 
 .left {
@@ -77,15 +74,8 @@ body {
     grid-column: 1;
     height: 100%;
 }
-.middle {
-    position: relative;
-    background: rgba(45, 48, 45, 0.1);
-    grid-column: 2;
-    height: 100%;
-}
-
 .right {
     position: relative;
     background: rgba(63, 58, 55, 0.1);
-    grid-column: 3;
+    grid-column: 2;
 }

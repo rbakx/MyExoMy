@@ -1,6 +1,6 @@
 #!/usr/bin/env/python
 import smbus
-import rospy
+import rclpy
 
 # Global variables
 # ReneB: I2C address of Atmega328P.
@@ -10,13 +10,16 @@ slaveAddressAtmega328P = 0x04
 # it will overwrite the previous command on the Atmega328P.
 i2cDelay = 0.1
 
+
 def get_smbus():
     try:
         bus = smbus.SMBus(1)
         return bus
     except Exception as e:
-        rospy.loginfo('I2C get_smbus exception: ' + str(e))
+        log_node = rclpy.create_node('log_node')
+        log_node.get_logger().info('I2C get_smbus exception: ' + str(e))
         return None
+
 
 def read_byte(slaveAddr, adr):
     try:
@@ -24,7 +27,8 @@ def read_byte(slaveAddr, adr):
         byte = bus.read_byte_data(slaveAddr, adr)
         return byte
     except Exception as e:
-        rospy.loginfo('I2C read_byte exception: ' + str(e))
+        log_node = rclpy.create_node('log_node')
+        log_node.get_logger().info('I2C read_byte exception: ' + str(e))
         return 0
 
 def read_word(slaveAddr, adr):
@@ -35,7 +39,8 @@ def read_word(slaveAddr, adr):
         val = (high << 8) + low
         return val
     except Exception as e:
-        rospy.loginfo('I2C read_word exception: ' + str(e))
+        log_node = rclpy.create_node('log_node')
+        log_node.get_logger().info('I2C read_word exception: ' + str(e))
         return 0
 
 def read_word_2c(slaveAddr, adr):
@@ -46,7 +51,8 @@ def read_word_2c(slaveAddr, adr):
         else:
             return val
     except Exception as e:
-        rospy.loginfo('I2C read_word_2c exception: ' + str(e))
+        log_node = rclpy.create_node('log_node')
+        log_node.get_logger().info('I2C read_word_2c exception: ' + str(e))
         return 0
 
 def write_byte(slaveAddr, adr, value):
@@ -54,4 +60,6 @@ def write_byte(slaveAddr, adr, value):
         bus = get_smbus()
         bus.write_byte_data(slaveAddr, adr, value)
     except Exception as e:
-        rospy.loginfo('I2C write_byte exception: ' + str(e))
+        log_node = rclpy.create_node('log_node')
+        log_node.get_logger().info('I2C write_byte exception: ' + str(e))
+        return 0
