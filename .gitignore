@@ -1,3 +1,4 @@
-**/.ssh
-**/ssl
+**/.ssh/
+**/ssl/
+**/images/
 *.pyc
