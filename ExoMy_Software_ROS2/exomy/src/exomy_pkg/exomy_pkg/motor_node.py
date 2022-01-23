@@ -20,10 +20,11 @@ class MotorNode(Node):
         self.init_params()
 
         # Create Subscription
+        # ReneB: Set history depth to 1, otherwise the motors will not stop immediately.
         self.subscription = self.create_subscription(
             MotorCommands,
             '/exomy_pkg/motor_commands',
-            self.callback, 10)
+            self.callback, 1)
         self.subscription  # prevent unused variable warning
 
         # Create motor instances

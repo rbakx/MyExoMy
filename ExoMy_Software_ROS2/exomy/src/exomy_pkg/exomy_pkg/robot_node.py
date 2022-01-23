@@ -93,7 +93,8 @@ class RobotNode(Node):
         if hardware_status == 42:
             # ReneB: If we get here it means that the ATmega328P is going to put the MyExoMy to sleep after a short waiting period.
             # After this short period the ATmega328P will switch off the power to the Raspberry Pi. During this period we shutdown the Raspberry Pi in a proper way.
-            self.sleep_status_pub.publish("SLEEP ACTIVATED")
+            msg.data = "SLEEP ACTIVATED" 
+            self.sleep_status_pub.publish(msg)
             time.sleep(3) # Give Web page time to update.
             own_util.Shutdown()
 

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/ubuntu/exomy/start.sh
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Name=MyExoMy
+Comment=start up MyExoMy

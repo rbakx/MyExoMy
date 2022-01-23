@@ -1,0 +1,49 @@
+# Naming conventions:
+#
+# fl - front left  | fr - front right
+# cl - center left | cr - center right
+# rl - rear left   | rr - rear right
+
+# Pin numbers for motors on PWM board
+# Note that the indents below are necessary!
+motor_node:
+  ros__parameters:
+
+    pin_drive_fl: 11
+    pin_steer_fl: 14
+    
+    pin_drive_fr: 4
+    pin_steer_fr: 1
+    
+    pin_drive_cl: 10
+    pin_steer_cl: 15
+    
+    pin_drive_cr: 5
+    pin_steer_cr: 0
+    
+    pin_drive_rl: 13
+    pin_steer_rl: 12
+    
+    pin_drive_rr: 2
+    pin_steer_rr: 3
+    
+    ## PWM values
+    # Those values highly depend on the motors and pwm board used
+    # Check out the wiki for further explanation
+    
+    # PWM values for the neutral steering position
+    steer_pwm_neutral_fl: 280
+    steer_pwm_neutral_fr: 275
+    steer_pwm_neutral_cl: 275
+    steer_pwm_neutral_cr: 265
+    steer_pwm_neutral_rl: 275
+    steer_pwm_neutral_rr: 270
+    
+    # PWW range around steering neutral position
+    steer_pwm_range: 250
+    
+    # PWM value for the stop position of driving motors
+    drive_pwm_neutral: 307
+    
+    # PWW range around driving neutral position
+    drive_pwm_range: 100
