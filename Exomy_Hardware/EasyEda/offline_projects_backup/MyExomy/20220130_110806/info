@@ -4,7 +4,7 @@
   "name": "MyExomy",
   "content": "",
   "created_at": "2021-04-03 12:52:32",
-  "updated_at": "2022-01-30 16:39:54",
+  "updated_at": "2022-01-30 11:08:06",
   "stick": "",
   "documents": [
     {
@@ -12,7 +12,7 @@
       "title": "Circuit_Power",
       "description": "",
       "docType": "1",
-      "master": "25db32a7b9308f018bde38ef56d5b5b8",
+      "master": "6cd90daf70998bf255d567cc17f7e77b",
       "thumb": "/images/thumb-default.png",
       "components": {
         "70c2ab06c08d4b8d8ff8ec184eceebb0": 2,
@@ -31,7 +31,7 @@
         "51e1b96213025ed2986fc4bc4cd0d08d": 1,
         "ddeb553b7792411a9c497232bc849e0a": 1,
         "accc526fac024edba46b042890b7936d": 1,
-        "22a3615e4eb808fb0a8393e33760ea4b": 2,
+        "22a3615e4eb808fb0a8393e33760ea4b": 1,
         "4fccf87bf7a24945b2e47b52da0b22d4": 1
       },
       "BOM": [
@@ -140,21 +140,6 @@
           }
         ],
         [
-          "10000uF 6.3V",
-          1,
-          "CAP-TH_BD5.0-P2.00-D0.8-FD",
-          "C5",
-          {
-            "BOM_Supplier": "LCSC",
-            "BOM_Manufacturer": "ValuePro",
-            "BOM_Manufacturer Part": "47uF 16V Aluminum electrolytic capacitors",
-            "BOM_Supplier Part": "C22320",
-            "BOM_JLCPCB Part Class": "Extended Part",
-            "puuid": "3744bcbe1f464b01ae180f32d7d4b0c4",
-            "uuid": "22a3615e4eb808fb0a8393e33760ea4b"
-          }
-        ],
-        [
           "Charge",
           1,
           "H2-5.0-10.5X8.0MM",
@@ -201,14 +186,14 @@
         [
           "BAT46",
           1,
-          "BAT35 VERTICAL",
+          "DIODE_DO35",
           "D4",
           {
             "BOM_Manufacturer": "STmicroelectronics",
             "BOM_Manufacturer Part": "BAT46",
             "BOM_Supplier": "Mouser",
             "BOM_Supplier Part": "511-BAT46",
-            "puuid": "328a8f79f3d24e70bb5bdcdc70fb94ba",
+            "puuid": "7843b82012604eaea41071f582deffa7",
             "uuid": "4fccf87bf7a24945b2e47b52da0b22d4"
           }
         ],
@@ -531,11 +516,11 @@
           }
         ]
       ],
-      "updateTime": 1643557194,
+      "updateTime": 1643537286,
       "createTime": 1617447199,
       "histories": [],
       "created_at": "2021-04-03 12:53:19",
-      "updated_at": "2022-01-30 16:39:54"
+      "updated_at": "2022-01-30 11:08:06"
     },
     {
       "uuid": "1c19e49a598b28adfe5bf476cd3a2e59",
@@ -547,7 +532,6 @@
       "master": "",
       "thumb": "/images/thumb-default.png",
       "components": {
-        "328a8f79f3d24e70bb5bdcdc70fb94ba": 1,
         "e8260323ff984d118782bc3786c51e77": 15,
         "179a1c8f558441ec87c5909a271efa08": 1,
         "6924b36489de4921bb29ca14bf27c33f": 4,
@@ -565,11 +549,11 @@
         "fb8b10620b5a459d9b03fd14987346f4": 1
       },
       "BOM": [],
-      "updateTime": 1643538767,
+      "updateTime": 1632571947,
       "createTime": 1618082834,
       "histories": [],
       "created_at": "2021-04-10 21:27:14",
-      "updated_at": "2022-01-30 11:32:47"
+      "updated_at": "2021-09-25 14:12:27"
     }
   ],
   "sort": [
@@ -579,5 +563,5 @@
   "title": "MyExomy",
   "foldername": "MyExomy",
   "schfilename": "MyExomy.json",
-  "schfilemtime": 1643557194245
+  "schfilemtime": 1643537286452
 }
