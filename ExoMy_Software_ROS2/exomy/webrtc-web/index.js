@@ -7,8 +7,8 @@ var socketIO = require('socket.io');
 
 const fs = require("fs");
 const options = {
-  key: fs.readFileSync("/home/ubuntu/exomy/ssl/server.key"),
-  cert: fs.readFileSync("/home/ubuntu/exomy/ssl/server.crt")
+  key: fs.readFileSync("/home/exomy/exomy/ssl/server.key"),
+  cert: fs.readFileSync("/home/exomy/exomy/ssl/server.crt")
 };
 
 var fileServer = new(nodeStatic.Server)();
