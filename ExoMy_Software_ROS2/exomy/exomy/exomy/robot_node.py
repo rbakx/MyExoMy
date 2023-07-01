@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from messages_pkg.msg import RoverCommand, MotorCommands
+from exomy_msgs.msg import RoverCommand, MotorCommands
 import rclpy
 from rclpy.node import Node
 from .rover import Rover

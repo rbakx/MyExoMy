@@ -2,7 +2,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.timer import Timer
-from messages_pkg.msg import MotorCommands
+from exomy_msgs.msg import MotorCommands
 from .motors import Motors
 from . import i2c
 

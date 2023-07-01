@@ -3,7 +3,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Joy
-from messages_pkg.msg import RoverCommand
+from exomy_msgs.msg import RoverCommand
 from .locomotion_modes import LocomotionMode
 import math
 
