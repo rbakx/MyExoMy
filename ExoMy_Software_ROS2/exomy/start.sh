@@ -9,26 +9,24 @@
 
 function start_webserver()
 {
-	http-server --ssl --cert /home/ubuntu/exomy/ssl/server.crt --key /home/ubuntu/exomy/ssl/server.key /home/ubuntu/exomy/gui -p 55555 &
+	http-server --ssl --cert /home/exomy/exomy/ssl/server.crt --key /home/exomy/exomy/ssl/server.key /home/exomy/exomy/exomy/gui -p 55555 &
 }
 
 function start_websocket()
 {
-	. /opt/ros/galactic/setup.bash
-    . /home/ubuntu/ros2_galactic/ros2-linux/setup.bash
+	. /opt/ros/humble/setup.bash
     ros2 launch rosbridge_server rosbridge_websocket_launch.xml &
 }
 
 function start_rosnodes()
 {
-	. /home/ubuntu/exomy/install/setup.bash
-    . /home/ubuntu/ros2_galactic/ros2-linux/setup.bash
-    ros2 launch /home/ubuntu/exomy/launch/exomy_pkg.launch.py &
+	. /home/exomy/exomy/exomy/install/setup.bash
+    ros2 launch /home/exomy/exomy/exomy/launch/exomy.launch.py &
 }
 
 function start_webrtc()
 {
-	cd /home/ubuntu/exomy/webrtc-web && node index.js &
+	cd /home/exomy/exomy/webrtc-web && node index.js &
     firefox https://localhost:8080 &  # Add -kiosk if desired.
 }
 
