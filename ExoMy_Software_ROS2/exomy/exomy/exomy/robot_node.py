@@ -116,7 +116,7 @@ class RobotNode(Node):
         # ReneB: To calculate the solar panel charging current we first calculate the voltage over the 10 ohm resistor as being
         # solarpanel_voltage - battery_voltage minus the voltage over the transistor (TIP32C) and diode (1N4002).
         # The voltage over the transistor and diode will be around 0.7 V.
-        # This calculation is valid between 0 mA end the currents source current which is 60 mA.
+        # This calculation is valid between 0 mA and the current-source current which is 60 mA.
         solarpanel_current = min(max((solarpanel_voltage - battery_voltage - 0.7) / 0.01, 0), 60)
         msg.data = "{:.2f}".format(solarpanel_voltage) + " V" + ", " + "{:.2f}".format(solarpanel_current) + " mA"
         self.solarpanel_status_pub.publish(msg)
