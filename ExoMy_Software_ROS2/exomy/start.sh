@@ -62,3 +62,6 @@ then
 else
     echo "use one of the following parameters: webserver, websocket, rosnodes, webrtc, all, stop or no parameter (same as all)"
 fi
+
+# The below wifi_check.py script will check every 10 seconds the wifi access points signal strengths and switch if appropriate.
+python3 $HOME/exomy/exomy/scripts/wifi_check.py
