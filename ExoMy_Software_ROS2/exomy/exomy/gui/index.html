@@ -137,7 +137,7 @@
     wifi_status_listener.subscribe(function (m) {
       document.getElementById("wifi_status").innerHTML = "Wifi status: " + m.data;
     });
-    
+
     sleep_status_listener.subscribe(function (m) {
       sleep_status_id = document.getElementById("sleep_status");
       sleep_status_id.textContent = m.data;
@@ -184,17 +184,25 @@
       });
       own_button_listener.publish(msg);
       if (lights_toggle == "lights_off") {
-        elem.textContent = "LIGHTS ON";
+        elem.textContent = "LIGHTS OFF";
         elem.style.color = "white";
         elem.style.backgroundColor = "black";
         lights_toggle = "lights_on";
       }
       else {
-        elem.textContent = "LIGHTS OFF";
+        elem.textContent = "LIGHTS ON";
         elem.style.color = "black";
         elem.style.backgroundColor = "yellow";
         lights_toggle = "lights_off";
       }
+    }
+    
+    function checkWifi(elem) {
+      var msg = new ROSLIB.Message({
+        data: "check_wifi" // The std_msgs/String Message has type 'data'.
+      });
+      own_button_listener.publish(msg);
+      document.getElementById("wifi_status").innerHTML = "Wifi status: checking..."
     }
 
     function gotoSleep(elem) {
@@ -206,6 +214,7 @@
       elem.style.backgroundColor = "orange";
     }
 
+
   </script>
   <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -216,7 +225,8 @@
     <div class="wrapper">
       <div class="left" id="left">
         <div class="image_container">
-          <iframe id = "video_output" allow="camera; microphone" scrolling="no" frameborder="0" style="position: relative; height: 100%; width: 100%;">
+          <iframe id="video_output" allow="camera; microphone" scrolling="no" frameborder="0"
+            style="position: relative; height: 100%; width: 100%;">
           </iframe>
         </div>
       </div>
@@ -227,8 +237,12 @@
           <button class="button buttonX" onclick="button_clicked(0)">SPOT TURN</button>
           <button class="button buttonA" onclick="button_clicked(1)">ACKERMANN</button>
           <button class="button buttonStart" onclick="button_clicked(9)">MOTORS</button>
-          <button id="light_status" class="button lights" style = "color: white; background-color: black" onclick="toggleLights(this)">LIGHTS ON</button>
-          <button id="sleep_status" class="button sleep" style = "color: white; background-color: red" onclick="gotoSleep(this)">SLEEP</button>
+          <button id="light_status" class="button lights" style="color: white; background-color: black"
+            onclick="toggleLights(this)">LIGHTS ON</button>
+          <button id="check_wifi" class="button check wifi" style="color: white; background-color: violet"
+            onclick="checkWifi(this)">CHECK WIFI</button>
+          <button id="sleep_status" class="button sleep" style="color: white; background-color: red"
+            onclick="gotoSleep(this)">SLEEP</button>
           <div id="status" style="font-size: 24px; color:blue;"></div>
           <div id="battery_status" style="font-size: 24px; color:blue;">initializing</div>
           <div id="solarpanel_status" style="font-size: 24px; color:blue;">initializing</div>

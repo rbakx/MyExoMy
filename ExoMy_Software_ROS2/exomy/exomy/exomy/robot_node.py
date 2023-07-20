@@ -52,8 +52,9 @@ class RobotNode(Node):
 
         self.robot = Rover()
 
-        # ReneB: Create Watchdog timer to send status every second.
-        self.watchdog_timer = self.create_timer(1, self.watchdog)
+        # ReneB: Create Watchdog timer to send status regularly
+        # Do not call the Watchdog too often (like every second), otherwise it will create too much load and the 'I2C read_byte exception: [Errno 121] Remote I/O error' can occur.
+        self.watchdog_timer = self.create_timer(5, self.watchdog)
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
 
@@ -75,6 +76,8 @@ class RobotNode(Node):
             i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 1)  # Turn lights on
         elif msg.data == "lights_off":
             i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 2)  # Turn lights off
+        elif msg.data == "check_wifi":
+            own_util.CheckWifi()
         elif msg.data == "goto_sleep":
             i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 42)  # Send sleep command
             # After sending the sleep command to the Atmega328P, the Atmega328P will send back '42' as hardware status indicating it will put the MyExoMy to sleep after a delay.
