@@ -31,7 +31,7 @@ class MotorNode(Node):
         self.motors = Motors(self.parameters)
 
         # Create watchdog timer
-        self.watchdog_timer = self.create_timer(5.0, self.watchdog)
+        self.watchdog_timer = self.create_timer(0.5, self.watchdog)
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
 

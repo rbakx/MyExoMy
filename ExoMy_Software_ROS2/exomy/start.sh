@@ -20,7 +20,7 @@ function start_websocket()
 
 function start_rosnodes()
 {
-	. /home/exomy/exomy/exomy/install/setup.bash
+	. /home/exomy/exomy/install/setup.bash
     ros2 launch /home/exomy/exomy/exomy/launch/exomy.launch.py &
 }
 
