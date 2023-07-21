@@ -15,7 +15,7 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr; 
     width: 100vw;
-    height: 100vh;
+    height: 125vh;
 }
 .button {
   border: none;
@@ -53,7 +53,7 @@ body {
     position: absolute;
     display: grid;
     left: 25%;
-    top: 25%;
+    top: 5%;
     height: 50%;
     width: 50%;
 }
@@ -64,6 +64,9 @@ body {
     width: 120%;
 }
 .joy_container {
+    position: relative;
+    top: 0%;
+    left: 10%;
     height: 50%;
     width: 80%;
 }
@@ -78,4 +81,5 @@ body {
     position: relative;
     background: rgba(63, 58, 55, 0.1);
     grid-column: 2;
+        height: 100%;
 }
