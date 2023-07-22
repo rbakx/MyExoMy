@@ -53,7 +53,7 @@ class RobotNode(Node):
         self.robot = Rover()
 
         # ReneB: Create Watchdog timer to send status regularly
-        # Do not call the Watchdog too often (like every second), otherwise it will create too much load and the 'I2C read_byte exception: [Errno 121] Remote I/O error' can occur.
+        # Do not call the Watchdog too often (like every second), otherwise it will create too much load.
         self.watchdog_timer = self.create_timer(5, self.watchdog)
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
@@ -73,24 +73,28 @@ class RobotNode(Node):
 
     def own_button_callback(self, msg):
         if msg.data == "lights_on":
-            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 1)  # Turn lights on
+            with i2c.i2c_lock:
+                i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 1)  # Turn lights on
         elif msg.data == "lights_off":
-            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 2)  # Turn lights off
+            with i2c.i2c_lock:
+                i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 2)  # Turn lights off
         elif msg.data == "check_wifi":
             own_util.CheckWifi()
         elif msg.data == "goto_sleep":
-            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 42)  # Send sleep command
-            # After sending the sleep command to the Atmega328P, the Atmega328P will send back '42' as hardware status indicating it will put the MyExoMy to sleep after a delay.
-            # This hardware status is read below so the Raspberry Pi can properly shut down.
+            with i2c.i2c_lock:
+                i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 42)  # Send sleep command
+                # After sending the sleep command to the Atmega328P, the Atmega328P will send back '42' as hardware status indicating it will put the MyExoMy to sleep after a delay.
+                # This hardware status is read below so the Raspberry Pi can properly shut down.
 
 
     def watchdog(self):
         msg = String()
         # Read hardware status from Atmega328P
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 255)  # 255 means read hardware status.
-        time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
-        hardware_status = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
+        with i2c.i2c_lock:
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 255)  # 255 means read hardware status.
+            time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
+            hardware_status = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         # A hardware status of 42 means that the Atmega328P received a request to put the MyExoMy to sleep after a delay.
         # This sleep request can come from the Web Interface (RaspBerry Pi) and also from the Atmega328P itself when there is no motion (activity) detected for a certain period of time.
         if hardware_status == 42:
@@ -102,19 +106,21 @@ class RobotNode(Node):
             own_util.Shutdown()
 
         # Read battery status from Atmega328P
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 128)  # 128 means read battery status.
-        time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
-        battery_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
+        with i2c.i2c_lock:
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 128)  # 128 means read battery status.
+            time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
+            battery_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         battery_voltage = battery_voltage * 7.8 * 1.1 / 256
         msg.data = "{:.2f}".format(battery_voltage) + " V"
         self.battery_status_pub.publish(msg)
 
         # Read solar panel status from Atmega328P
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 129)  # 129 means read solar panel status.
-        time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
-        solarpanel_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
+        with i2c.i2c_lock:
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 100)  # Command to indicate a read is going to follow.
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 129)  # 129 means read solar panel status.
+            time.sleep(i2c.i2cDelay) # Give Atmega328P time to process.
+            solarpanel_voltage = i2c.read_byte(i2c.slaveAddressAtmega328P, 0)
         solarpanel_voltage = solarpanel_voltage * 21.5 * 1.1 / 256
         # ReneB: To calculate the solar panel charging current we first calculate the voltage over the 10 ohm resistor as being
         # solarpanel_voltage - battery_voltage minus the voltage over the transistor (TIP32C) and diode (1N4002).

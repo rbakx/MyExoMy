@@ -31,7 +31,7 @@ class MotorNode(Node):
         self.motors = Motors(self.parameters)
 
         # Create watchdog timer
-        self.watchdog_timer = self.create_timer(0.5, self.watchdog)
+        self.watchdog_timer = self.create_timer(1.0, self.watchdog)
 
         self.get_logger().info('\t{} STARTED.'.format(self.node_name.upper()))
 
@@ -131,15 +131,16 @@ class MotorNode(Node):
         # If this timer runs longer than the duration specified,
         # then watchdog() is called stopping the driving motors.
         # Preventing the robot to go on driving if connection is lost.
-        # ReneB: Decreased watchdog timeout from 2 seconds to 0.5 second.
+        # ReneB: Decreased watchdog timeout from 2 seconds to 1.0 second.
         # This to make sure that if the Wifi connection drops the ExoMy stops in 0.5 second.
         # It still is possible that after the ExoMy stops it starts moving again due to delayed Wifi packet delivery.
-        self.watchdog_timer = self.create_timer(0.5, self.watchdog)
+        self.watchdog_timer = self.create_timer(1.0, self.watchdog)
 
     def watchdog(self):
         self.get_logger().info('Watchdog fired. Stopping driving motors.')
         self.motors.stopMotors()
-        i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 10)  # Send motion command to Arduino to prevent putting MyExoMy to sleep.
+        with i2c.i2c_lock:
+            i2c.write_byte(i2c.slaveAddressAtmega328P, 0, 10)  # Send motion command to Arduino to prevent putting MyExoMy to sleep.
 
 
 def main(args=None):

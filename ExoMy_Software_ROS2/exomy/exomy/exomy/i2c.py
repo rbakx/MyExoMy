@@ -1,5 +1,6 @@
 #!/usr/bin/env/python
 import smbus
+import threading
 import rclpy
 
 # Global variables
@@ -9,6 +10,9 @@ slaveAddressAtmega328P = 0x04
 # The Atmega328P does not buffer the I2C commands. If the Raspberry issues an I2C command too fast for the Atmega328P,
 # it will overwrite the previous command on the Atmega328P.
 i2cDelay = 0.1
+
+# Use a i2c lock because multiple nodes (which run in different threads) can access the i2c bus.
+i2c_lock = threading.Lock()
 
 
 def get_smbus():
