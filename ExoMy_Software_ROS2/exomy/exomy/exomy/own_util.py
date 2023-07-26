@@ -43,10 +43,10 @@ def GetWifiStatus():
     # Run on Raspberry Pi host, so through SSH.
     stdOutAndErr = RunShellCommandWait("/sbin/iwconfig")
     # Use DOTALL (so '.' will also match a newline character) because stdOutAndErr can be multiline.
-    expr = re.compile('.*ESSID:"(.*)".*?Signal level=(.*dBm)', re.DOTALL)
+    expr = re.compile('.*ESSID:"(.*)".*Frequency:(.*GHz).*Signal level=(.*dBm)', re.DOTALL)
     m = expr.match(stdOutAndErr.decode('utf-8'))
     if m is not None:  # m will be not None only when both capture groups are valid.
-        wifiStatus = m.group(1) + ', ' + m.group(2)
+        wifiStatus = m.group(1) + ', ' + m.group(2) + ', ' + m.group(3) 
     else:
         wifiStatus = 'wifi unknown'
     return wifiStatus
